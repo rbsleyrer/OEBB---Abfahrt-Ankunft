@@ -7,41 +7,41 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Fahrplan">
-<meta name="theme-color" content="#080810">
+<meta name="theme-color" content="#0a0a0f">
 <title>Fahrplan</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080810;--surface:#0f0f1a;--card:#13131f;--border:#1c1c2e;--border2:#222235;--accent:#e8003d;--text:#eeeef8;--sub:#8888aa;--muted:#44445a;--green:#00d48a;--yellow:#f5c400;--red:#ff3358;}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;overflow:hidden;}
-#app{display:flex;flex-direction:column;height:100vh;height:100dvh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--bg);}
-.header{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;}
-.logo{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--text);}
-.dot{width:8px;height:8px;background:var(--accent);border-radius:50%;flex-shrink:0;animation:blink 1.6s ease-in-out infinite;}
-.clock{font-size:15px;letter-spacing:2px;color:var(--sub);}
-.controls{background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;}
-.mode-bar{display:flex;padding:10px 16px 0;gap:8px;}
-.mode-btn{flex:1;padding:9px 4px;background:transparent;border:1px solid var(--border2);border-radius:8px;color:var(--sub);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;cursor:pointer;}
-.mode-btn.active{background:rgba(232,0,61,0.12);border-color:rgba(232,0,61,0.35);color:#ff7090;}
-.tabs{display:flex;margin-top:6px;}
-.tab{flex:1;padding:11px 8px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;cursor:pointer;}
-.tab.active{border-bottom-color:var(--accent);color:var(--text);}
-.col-header{display:flex;align-items:center;padding:8px 16px;font-size:9px;letter-spacing:2px;color:var(--muted);border-bottom:1px solid var(--border);text-transform:uppercase;flex-shrink:0;background:var(--bg);}
-.list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg);}
-.train-row{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);gap:12px;background:var(--bg);}
-.time{font-size:20px;font-weight:500;min-width:60px;color:var(--text);}
-.info{flex:1;min-width:0;}
-.dest{font-size:15px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);margin-bottom:5px;}
-.train-line{display:flex;align-items:center;gap:7px;}
-.badge{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:500;flex-shrink:0;}
-.train-name{font-size:11px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.status{font-size:12px;font-weight:500;text-align:right;min-width:64px;}
-.plat span{display:inline-flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--border2);width:34px;height:28px;border-radius:6px;font-size:13px;color:var(--sub);}
-.footer{padding:8px 16px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);background:var(--surface);flex-shrink:0;display:flex;justify-content:space-between;align-items:center;}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2.5s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  :root {
+    --bg:#0a0a0f;--panel:#111118;--border:#1e1e2e;--accent:#e8003d;
+    --text:#f0f0f8;--muted:#5a5a7a;--green:#00e5a0;--yellow:#ffd600;--red:#ff3d5a;
+    --mono:'DM Mono',monospace;--display:'Syne',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100vh;height:100dvh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+  .header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#111118;border-bottom:1px solid #1e1e2e;flex-shrink:0;}
+  .logo{font-family:var(--display);font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px;}
+  .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:blink 1.4s ease-in-out infinite;}
+  .clock{font-size:14px;letter-spacing:2px;}
+  .mode-bar{display:flex;gap:8px;padding:10px 16px;background:#0d0d14;border-bottom:1px solid #1e1e2e;flex-shrink:0;}
+  .mode-btn{flex:1;padding:9px 4px;background:rgba(255,255,255,0.03);border:1px solid #1e1e2e;border-radius:8px;color:#5a5a7a;font-family:var(--mono);font-size:11px;letter-spacing:1px;cursor:pointer;}
+  .mode-btn.active{background:rgba(232,0,61,0.15);border-color:rgba(232,0,61,0.4);color:#ff6680;}
+  .tabs{display:flex;background:#0d0d14;border-bottom:1px solid #1e1e2e;flex-shrink:0;}
+  .tab{flex:1;padding:13px 8px;background:none;border:none;border-bottom:2px solid transparent;color:#5a5a7a;font-family:var(--mono);font-size:12px;letter-spacing:1px;cursor:pointer;}
+  .tab.active{border-bottom-color:var(--accent);color:var(--text);}
+  .col-header{display:flex;padding:6px 16px;font-size:9px;letter-spacing:2px;color:#5a5a7a;border-bottom:1px solid #1e1e2e;text-transform:uppercase;flex-shrink:0;}
+  .list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .train-row{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(30,30,46,0.6);gap:12px;}
+  .time{font-size:20px;font-weight:500;min-width:58px;}
+  .info{flex:1;min-width:0;}
+  .dest{font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px;}
+  .train-line{display:flex;align-items:center;gap:6px;}
+  .badge{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500;flex-shrink:0;}
+  .train-name{font-size:11px;color:#5a5a7a;}
+  .status{font-size:12px;font-weight:500;text-align:right;min-width:60px;}
+  .plat span{display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);width:32px;height:26px;border-radius:5px;font-size:12px;}
+  .footer{padding:7px 16px;font-size:10px;color:#3a3a5a;border-top:1px solid #1e1e2e;flex-shrink:0;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.15}}
 </style>
 </head>
 <body>
@@ -50,91 +50,152 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mon
     <div class="logo"><div class="dot"></div>OeBB FAHRPLAN</div>
     <div class="clock" id="clock">--:--:--</div>
   </div>
-  <div class="controls">
-    <div class="mode-bar">
-      <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">&#8593; ABFAHRT</button>
-      <button class="mode-btn" id="btn-arr" onclick="setMode('arr')">&#8595; ANKUNFT</button>
-    </div>
-    <div class="tabs">
-      <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
-      <button class="tab" id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
-    </div>
+  <div class="mode-bar">
+    <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">&#8593; ABFAHRT</button>
+    <button class="mode-btn" id="btn-arr" onclick="setMode('arr')">&#8595; ANKUNFT</button>
+  </div>
+  <div class="tabs">
+    <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
+    <button class="tab" id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
   </div>
   <div class="col-header">
-    <div style="min-width:60px" id="col-time">ABFAHRT</div>
-    <div style="flex:1;padding-left:12px" id="col-dest">ZIEL</div>
-    <div style="min-width:64px;text-align:right">STATUS</div>
-    <div style="width:34px;text-align:center;margin-left:12px">GL.</div>
+    <div style="min-width:58px" id="col-time">ABFAHRT</div>
+    <div style="flex:1;padding-left:8px" id="col-dest">ZIEL</div>
+    <div style="min-width:60px;text-align:right">STATUS</div>
+    <div style="width:32px;text-align:center;margin-left:12px">GL.</div>
   </div>
   <div class="list" id="list"></div>
-  <div class="footer">
-    <span id="footer-text">OeBB &amp; Westbahn</span>
-    <div class="live-dot"></div>
-  </div>
+  <div class="footer" id="footer">OeBB &amp; Westbahn</div>
 </div>
 <script>
-var BS={rj:{bg:'rgba(232,0,61,0.2)',c:'#ff7090'},ice:{bg:'rgba(220,220,255,0.1)',c:'#ccccee'},ic:{bg:'rgba(255,120,40,0.2)',c:'#ff8844'},s:{bg:'rgba(0,200,130,0.15)',c:'#00d48a'},rex:{bg:'rgba(100,100,220,0.18)',c:'#8888cc'},wb:{bg:'rgba(240,190,0,0.18)',c:'#f5c400'}};
-var DATA={sbg:{dep:[{dest:'Wien Westbahnhof',train:'WB 110',type:'wb',plat:'2'},{dest:'Wien Hbf',train:'RJ 160',type:'rj',plat:'1'},{dest:'Muenchen Hbf',train:'RJ 61',type:'rj',plat:'3'},{dest:'Wien Westbahnhof',train:'WB 112',type:'wb',plat:'2'},{dest:'Innsbruck Hbf',train:'ICE 28',type:'ice',plat:'4'},{dest:'Wien Hbf',train:'RJ 162',type:'rj',plat:'1'},{dest:'Zuerich HB',train:'EC 163',type:'ic',plat:'5'},{dest:'Wien Westbahnhof',train:'WB 114',type:'wb',plat:'2'},{dest:'Graz Hbf',train:'RJ 635',type:'rj',plat:'1'},{dest:'Budapest Keleti',train:'RJ 63',type:'rj',plat:'3'},{dest:'Freilassing',train:'S 1',type:'s',plat:'7'},{dest:'Wien Westbahnhof',train:'WB 116',type:'wb',plat:'2'},{dest:'Klagenfurt Hbf',train:'EC 113',type:'ic',plat:'4'},{dest:'Golling-Abtenau',train:'S 3',type:'s',plat:'8'},{dest:'Wien Hbf',train:'RJ 164',type:'rj',plat:'1'},{dest:'Schwarzach-St.Veit',train:'REX 3810',type:'rex',plat:'5'}],arr:[{dest:'Wien Westbahnhof',train:'WB 111',type:'wb',plat:'2'},{dest:'Wien Hbf',train:'RJ 161',type:'rj',plat:'1'},{dest:'Muenchen Hbf',train:'RJ 60',type:'rj',plat:'3'},{dest:'Wien Westbahnhof',train:'WB 113',type:'wb',plat:'2'},{dest:'Innsbruck Hbf',train:'ICE 27',type:'ice',plat:'4'},{dest:'Zuerich HB',train:'EC 162',type:'ic',plat:'5'},{dest:'Wien Westbahnhof',train:'WB 115',type:'wb',plat:'2'},{dest:'Frankfurt Hbf',train:'ICE 26',type:'ice',plat:'4'},{dest:'Graz Hbf',train:'RJ 634',type:'rj',plat:'1'},{dest:'Budapest Keleti',train:'RJ 62',type:'rj',plat:'3'},{dest:'Wien Westbahnhof',train:'WB 117',type:'wb',plat:'2'},{dest:'Freilassing',train:'S 1',type:'s',plat:'7'},{dest:'Klagenfurt Hbf',train:'EC 112',type:'ic',plat:'4'},{dest:'Praha hl.n.',train:'RJ 74',type:'rj',plat:'2'}]},vie:{dep:[{dest:'Salzburg Hbf',train:'WB 111',type:'wb',plat:'4'},{dest:'Salzburg Hbf',train:'RJ 761',type:'rj',plat:'6'},{dest:'St. Poelten Hbf',train:'S 50',type:'s',plat:'1'},{dest:'Salzburg Hbf',train:'WB 113',type:'wb',plat:'4'},{dest:'Innsbruck Hbf',train:'RJ 163',type:'rj',plat:'3'},{dest:'Salzburg Hbf',train:'RJ 763',type:'rj',plat:'6'},{dest:'Zuerich HB',train:'RJ 165',type:'rj',plat:'5'},{dest:'Salzburg Hbf',train:'WB 115',type:'wb',plat:'4'},{dest:'Muenchen Hbf',train:'RJ 63',type:'rj',plat:'6'},{dest:'St. Poelten Hbf',train:'S 50',type:'s',plat:'2'},{dest:'Salzburg Hbf',train:'WB 117',type:'wb',plat:'4'},{dest:'Bregenz',train:'RJ 167',type:'rj',plat:'3'},{dest:'Amstetten',train:'REX 2110',type:'rex',plat:'1'},{dest:'Salzburg Hbf',train:'RJ 765',type:'rj',plat:'6'},{dest:'Feldkirch',train:'IC 690',type:'ic',plat:'5'},{dest:'Salzburg Hbf',train:'WB 119',type:'wb',plat:'4'}],arr:[{dest:'Salzburg Hbf',train:'WB 110',type:'wb',plat:'4'},{dest:'Salzburg Hbf',train:'RJ 760',type:'rj',plat:'6'},{dest:'St. Poelten Hbf',train:'S 50',type:'s',plat:'1'},{dest:'Salzburg Hbf',train:'WB 112',type:'wb',plat:'4'},{dest:'Muenchen Hbf',train:'RJ 62',type:'rj',plat:'6'},{dest:'Innsbruck Hbf',train:'RJ 162',type:'rj',plat:'3'},{dest:'Salzburg Hbf',train:'WB 114',type:'wb',plat:'4'},{dest:'Zuerich HB',train:'RJ 164',type:'rj',plat:'5'},{dest:'Salzburg Hbf',train:'RJ 762',type:'rj',plat:'6'},{dest:'Bregenz',train:'RJ 166',type:'rj',plat:'3'},{dest:'Salzburg Hbf',train:'WB 116',type:'wb',plat:'4'},{dest:'Frankfurt Hbf',train:'ICE 26',type:'ice',plat:'7'},{dest:'Budapest Keleti',train:'RJ 68',type:'rj',plat:'5'},{dest:'Salzburg Hbf',train:'WB 118',type:'wb',plat:'4'},{dest:'Praha hl.n.',train:'RJ 74',type:'rj',plat:'6'}]}};
+var BS={
+  rj:{bg:'rgba(232,0,61,0.2)',c:'#ff6680'},
+  ice:{bg:'rgba(255,255,255,0.1)',c:'#dddddd'},
+  ic:{bg:'rgba(255,107,53,0.2)',c:'#ff6b35'},
+  s:{bg:'rgba(0,229,160,0.15)',c:'#00e5a0'},
+  rex:{bg:'rgba(100,100,200,0.2)',c:'#9999dd'},
+  wb:{bg:'rgba(240,190,0,0.2)',c:'#ffd600'}
+};
+var DATA={
+  sbg:{
+    dep:[
+      {d:'Wien Westbahnhof',t:'WB 110',y:'wb',p:'2'},
+      {d:'Wien Hbf',t:'RJ 160',y:'rj',p:'1'},
+      {d:'Muenchen Hbf',t:'RJ 61',y:'rj',p:'3'},
+      {d:'Wien Westbahnhof',t:'WB 112',y:'wb',p:'2'},
+      {d:'Innsbruck Hbf',t:'ICE 28',y:'ice',p:'4'},
+      {d:'Wien Hbf',t:'RJ 162',y:'rj',p:'1'},
+      {d:'Zuerich HB',t:'EC 163',y:'ic',p:'5'},
+      {d:'Wien Westbahnhof',t:'WB 114',y:'wb',p:'2'},
+      {d:'Graz Hbf',t:'RJ 635',y:'rj',p:'1'},
+      {d:'Budapest Keleti',t:'RJ 63',y:'rj',p:'3'},
+      {d:'Freilassing',t:'S 1',y:'s',p:'7'},
+      {d:'Wien Westbahnhof',t:'WB 116',y:'wb',p:'2'},
+      {d:'Klagenfurt Hbf',t:'EC 113',y:'ic',p:'4'},
+      {d:'Wien Hbf',t:'RJ 164',y:'rj',p:'1'}
+    ],
+    arr:[
+      {d:'Wien Westbahnhof',t:'WB 111',y:'wb',p:'2'},
+      {d:'Wien Hbf',t:'RJ 161',y:'rj',p:'1'},
+      {d:'Muenchen Hbf',t:'RJ 60',y:'rj',p:'3'},
+      {d:'Wien Westbahnhof',t:'WB 113',y:'wb',p:'2'},
+      {d:'Innsbruck Hbf',t:'ICE 27',y:'ice',p:'4'},
+      {d:'Zuerich HB',t:'EC 162',y:'ic',p:'5'},
+      {d:'Wien Westbahnhof',t:'WB 115',y:'wb',p:'2'},
+      {d:'Frankfurt Hbf',t:'ICE 26',y:'ice',p:'4'},
+      {d:'Graz Hbf',t:'RJ 634',y:'rj',p:'1'},
+      {d:'Budapest Keleti',t:'RJ 62',y:'rj',p:'3'},
+      {d:'Wien Westbahnhof',t:'WB 117',y:'wb',p:'2'},
+      {d:'Klagenfurt Hbf',t:'EC 112',y:'ic',p:'4'},
+      {d:'Praha hl.n.',t:'RJ 74',y:'rj',p:'2'},
+      {d:'Freilassing',t:'S 1',y:'s',p:'7'}
+    ]
+  },
+  vie:{
+    dep:[
+      {d:'Salzburg Hbf',t:'WB 111',y:'wb',p:'4'},
+      {d:'Salzburg Hbf',t:'RJ 761',y:'rj',p:'6'},
+      {d:'St. Poelten Hbf',t:'S 50',y:'s',p:'1'},
+      {d:'Salzburg Hbf',t:'WB 113',y:'wb',p:'4'},
+      {d:'Innsbruck Hbf',t:'RJ 163',y:'rj',p:'3'},
+      {d:'Salzburg Hbf',t:'RJ 763',y:'rj',p:'6'},
+      {d:'Zuerich HB',t:'RJ 165',y:'rj',p:'5'},
+      {d:'Salzburg Hbf',t:'WB 115',y:'wb',p:'4'},
+      {d:'Muenchen Hbf',t:'RJ 63',y:'rj',p:'6'},
+      {d:'St. Poelten Hbf',t:'S 50',y:'s',p:'2'},
+      {d:'Salzburg Hbf',t:'WB 117',y:'wb',p:'4'},
+      {d:'Bregenz',t:'RJ 167',y:'rj',p:'3'},
+      {d:'Salzburg Hbf',t:'RJ 765',y:'rj',p:'6'},
+      {d:'Feldkirch',t:'IC 690',y:'ic',p:'5'}
+    ],
+    arr:[
+      {d:'Salzburg Hbf',t:'WB 110',y:'wb',p:'4'},
+      {d:'Salzburg Hbf',t:'RJ 760',y:'rj',p:'6'},
+      {d:'St. Poelten Hbf',t:'S 50',y:'s',p:'1'},
+      {d:'Salzburg Hbf',t:'WB 112',y:'wb',p:'4'},
+      {d:'Muenchen Hbf',t:'RJ 62',y:'rj',p:'6'},
+      {d:'Innsbruck Hbf',t:'RJ 162',y:'rj',p:'3'},
+      {d:'Salzburg Hbf',t:'WB 114',y:'wb',p:'4'},
+      {d:'Zuerich HB',t:'RJ 164',y:'rj',p:'5'},
+      {d:'Salzburg Hbf',t:'RJ 762',y:'rj',p:'6'},
+      {d:'Bregenz',t:'RJ 166',y:'rj',p:'3'},
+      {d:'Salzburg Hbf',t:'WB 116',y:'wb',p:'4'},
+      {d:'Frankfurt Hbf',t:'ICE 26',y:'ice',p:'7'},
+      {d:'Budapest Keleti',t:'RJ 68',y:'rj',p:'5'},
+      {d:'Praha hl.n.',t:'RJ 74',y:'rj',p:'6'}
+    ]
+  }
+};
 
 var station=‘sbg’, mode=‘dep’;
 
-function pad(n){return n<10?‘0’+n:String(n);}
-
-function fmtTime(d){return pad(d.getHours())+’:’+pad(d.getMinutes());}
+function pad(n){return n<10?‘0’+n:’’+n;}
+function ftime(ms){var d=new Date(ms);return pad(d.getHours())+’:’+pad(d.getMinutes());}
 
 function tick(){
 var d=new Date();
 document.getElementById(‘clock’).textContent=pad(d.getHours())+’:’+pad(d.getMinutes())+’:’+pad(d.getSeconds());
 }
-setInterval(tick,1000);
-tick();
-
-function withTimes(entries){
-var t=Date.now()+(1+Math.random()*2)*60000;
-var result=[];
-for(var i=0;i<entries.length;i++){
-if(i>0){t+=(4+Math.random()*9)*60000;}
-var e=entries[i];
-result.push({dest:e.dest,train:e.train,type:e.type,plat:e.plat,time:fmtTime(new Date(t)),delay:Math.random()<0.16?Math.ceil(Math.random()*12):0});
-}
-return result;
-}
+setInterval(tick,1000);tick();
 
 function render(){
-var rows=withTimes(DATA[station][mode]);
+var entries=DATA[station][mode];
+var t=Date.now()+(1+Math.random()*2)*60000;
 var html=’’;
-for(var i=0;i<rows.length;i++){
-var r=rows[i];
-var bs=BS[r.type]||BS.rex;
-var sc=’#00d48a’, st=‘punktl.’;
-if(r.delay>0&&r.delay<5){sc=’#f5c400’;st=’+’+r.delay+’ min’;}
-if(r.delay>=5){sc=’#ff3358’;st=’+’+r.delay+’ min’;}
-var tl=r.type===‘wb’?‘WB’:r.train.split(’ ‘)[0];
-html+=’<div class="train-row" style="animation:fadeUp .32s ease '+(i*18)+'ms both">’;
-html+=’<div class="time">’+r.time+’</div>’;
-html+=’<div class="info"><div class="dest">’+r.dest+’</div>’;
+for(var i=0;i<entries.length;i++){
+if(i>0)t+=(4+Math.random()*9)*60000;
+var e=entries[i];
+var bs=BS[e.y]||BS.rex;
+var delay=Math.random()<0.16?Math.ceil(Math.random()*12):0;
+var sc=’#00e5a0’,st=‘punktl.’;
+if(delay>0&&delay<5){sc=’#ffd600’;st=’+’+delay+’ min’;}
+if(delay>=5){sc=’#ff3d5a’;st=’+’+delay+’ min’;}
+var tl=e.y===‘wb’?‘WB’:e.t.split(’ ‘)[0];
+html+=’<div class="train-row">’;
+html+=’<div class="time">’+ftime(t)+’</div>’;
+html+=’<div class="info"><div class="dest">’+e.d+’</div>’;
 html+=’<div class="train-line"><span class="badge" style="background:'+bs.bg+';color:'+bs.c+'">’+tl+’</span>’;
-html+=’<span class="train-name">’+r.train+’</span></div></div>’;
+html+=’<span class="train-name">’+e.t+’</span></div></div>’;
 html+=’<div class="status" style="color:'+sc+'">’+st+’</div>’;
-html+=’<div class="plat"><span>’+r.plat+’</span></div></div>’;
+html+=’<div class="plat"><span>’+e.p+’</span></div>’;
+html+=’</div>’;
 }
 document.getElementById(‘list’).innerHTML=html;
 var n=new Date();
-document.getElementById(‘footer-text’).textContent=pad(n.getHours())+’:’+pad(n.getMinutes())+’ Uhr - OeBB & Westbahn’;
+document.getElementById(‘footer’).textContent=pad(n.getHours())+’:’+pad(n.getMinutes())+’ Uhr - OeBB & Westbahn’;
 }
 
 function setStation(k){
 station=k;
 var tabs=document.querySelectorAll(’.tab’);
-for(var i=0;i<tabs.length;i++){tabs[i].classList.remove(‘active’);}
+for(var i=0;i<tabs.length;i++)tabs[i].classList.remove(‘active’);
 document.getElementById(‘tab-’+k).classList.add(‘active’);
 render();
 }
-
 function setMode(m){
 mode=m;
 var btns=document.querySelectorAll(’.mode-btn’);
-for(var i=0;i<btns.length;i++){btns[i].classList.remove(‘active’);}
+for(var i=0;i<btns.length;i++)btns[i].classList.remove(‘active’);
 document.getElementById(‘btn-’+m).classList.add(‘active’);
 document.getElementById(‘col-time’).textContent=m===‘dep’?‘ABFAHRT’:‘ANKUNFT’;
 document.getElementById(‘col-dest’).textContent=m===‘dep’?‘ZIEL’:‘HERKUNFT’;
