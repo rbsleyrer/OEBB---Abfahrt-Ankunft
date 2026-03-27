@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ÖBB">
+<meta name="theme-color" content="#0a0a0f">
+<title>ÖBB Fahrplan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --panel: #111118;
+    --border: #1e1e2e;
+    --accent: #e8003d;
+    --text: #f0f0f8;
+    --muted: #5a5a7a;
+    --green: #00e5a0;
+    --yellow: #ffd600;
+    --red: #ff3d5a;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+height: 100%;
+background: var(–bg);
+color: var(–text);
+font-family: var(–mono);
+overflow: hidden;
+}
+
+#app {
+display: flex;
+flex-direction: column;
+height: 100vh;
+height: 100dvh;
+padding-top: var(–safe-top);
+padding-bottom: var(–safe-bottom);
+}
+
+/* HEADER */
+.header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 14px 18px;
+background: var(–panel);
+border-bottom: 1px solid var(–border);
+flex-shrink: 0;
+}
+
+.logo {
+font-family: var(–display);
+font-size: 18px;
+font-weight: 800;
+letter-spacing: -0.5px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.dot {
+width: 8px; height: 8px;
+background: var(–accent);
+border-radius: 50%;
+animation: blink 1.4s ease-in-out infinite;
+flex-shrink: 0;
+}
+
+.clock {
+font-size: 14px;
+letter-spacing: 2px;
+font-variant-numeric: tabular-nums;
+}
+
+/* MODE TOGGLE */
+.mode-bar {
+display: flex;
+gap: 6px;
+padding: 8px 14px;
+background: #0d0d14;
+border-bottom: 1px solid var(–border);
+flex-shrink: 0;
+}
+
+.mode-btn {
+flex: 1;
+padding: 8px 4px;
+background: none;
+border: none;
+border-radius: 6px;
+color: var(–muted);
+font-family: var(–mono);
+font-size: 11px;
+letter-spacing: 1px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.mode-btn.active {
+background: rgba(232, 0, 61, 0.15);
+color: #ff6680;
+}
+
+/* STATION TABS */
+.tabs {
+display: flex;
+background: #0d0d14;
+border-bottom: 1px solid var(–border);
+flex-shrink: 0;
+}
+
+.tab {
+flex: 1;
+padding: 11px 8px;
+background: none;
+border: none;
+border-bottom: 2px solid transparent;
+color: var(–muted);
+font-family: var(–mono);
+font-size: 12px;
+letter-spacing: 1px;
+cursor: pointer;
+transition: all 0.2s;
+}
+
+.tab.active {
+border-bottom-color: var(–accent);
+color: var(–text);
+font-weight: 500;
+}
+
+/* COL HEADERS */
+.col-header {
+display: flex;
+padding: 6px 16px;
+font-size: 9px;
+letter-spacing: 2px;
+color: var(–muted);
+border-bottom: 1px solid var(–border);
+text-transform: uppercase;
+gap: 12px;
+flex-shrink: 0;
+}
+
+/* TRAIN LIST */
+.list {
+flex: 1;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+}
+
+.list::-webkit-scrollbar { width: 3px; }
+.list::-webkit-scrollbar-thumb { background: var(–border); border-radius: 2px; }
+
+.train-row {
+display: flex;
+align-items: center;
+padding: 12px 16px;
+border-bottom: 1px solid rgba(30, 30, 46, 0.6);
+gap: 12px;
+animation: fadeUp 0.3s ease both;
+}
+
+.train-row:active { background: rgba(255,255,255,0.02); }
+
+.time {
+font-size: 18px;
+font-weight: 500;
+min-width: 52px;
+letter-spacing: 0.5px;
+font-variant-numeric: tabular-nums;
+}
+
+.info { flex: 1; min-width: 0; }
+
+.dest {
+font-size: 14px;
+font-weight: 500;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+.train-line {
+margin-top: 3px;
+display: flex;
+align-items: center;
+gap: 5px;
+}
+
+.badge {
+font-size: 9px;
+padding: 2px 6px;
+border-radius: 3px;
+font-weight: 500;
+letter-spacing: 0.5px;
+flex-shrink: 0;
+}
+
+.train-name {
+font-size: 11px;
+color: var(–muted);
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+}
+
+.status {
+font-size: 12px;
+text-align: right;
+min-width: 60px;
+}
+
+.platform {
+flex-shrink: 0;
+}
+
+.platform span {
+display: inline-block;
+background: rgba(255,255,255,0.07);
+border: 1px solid rgba(255,255,255,0.08);
+padding: 3px 9px;
+border-radius: 4px;
+font-size: 12px;
+min-width: 30px;
+text-align: center;
+}
+
+/* STATES */
+.loading-state, .error-state {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 60px 20px;
+gap: 14px;
+color: var(–muted);
+font-size: 11px;
+letter-spacing: 1px;
+text-align: center;
+}
+
+.spinner {
+width: 24px; height: 24px;
+border: 2px solid var(–border);
+border-top-color: var(–accent);
+border-radius: 50%;
+animation: spin 0.7s linear infinite;
+}
+
+.retry-btn {
+margin-top: 8px;
+background: none;
+border: 1px solid var(–red);
+color: var(–red);
+font-family: var(–mono);
+font-size: 10px;
+padding: 6px 16px;
+cursor: pointer;
+letter-spacing: 1px;
+border-radius: 4px;
+}
+
+/* FOOTER */
+.footer {
+padding: 6px 16px;
+font-size: 10px;
+color: #3a3a5a;
+border-top: 1px solid var(–border);
+flex-shrink: 0;
+letter-spacing: 0.5px;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.15} }
+@keyframes spin { to{transform:rotate(360deg)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+</style>
+
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <div class="logo">
+      <div class="dot"></div>
+      ÖBB FAHRPLAN
+    </div>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+
+  <div class="mode-bar">
+    <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">↑ ABFAHRT</button>
+    <button class="mode-btn" id="btn-arr" onclick="setMode('arr')">↓ ANKUNFT</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
+    <button class="tab" id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
+  </div>
+
+  <div class="col-header">
+    <div style="min-width:52px" id="col-time">ABFAHRT</div>
+    <div style="flex:1" id="col-dest">ZIEL</div>
+    <div style="min-width:60px;text-align:right">STATUS</div>
+    <div style="min-width:30px;text-align:center">GLEIS</div>
+  </div>
+
+  <div class="list" id="list">
+    <div class="loading-state"><div class="spinner"></div>Lade Daten…</div>
+  </div>
+
+  <div class="footer" id="footer">Echtzeit-Daten via ÖBB/HAFAS</div>
+</div>
+
+<script>
+// ─── State ───────────────────────────────────────────────
+let currentStation = 'sbg';
+let currentMode = 'dep'; // dep | arr
+let refreshTimer = null;
+
+const STATION_IDS = {
+  sbg: '8100002',  // Salzburg Hbf (EVA)
+  vie: '8101003',  // Wien Westbahnhof (EVA)
+};
+
+// DB open HAFAS API - covers Austria, no key needed
+const API = 'https://v6.db.transport.rest';
+
+// ─── Clock ───────────────────────────────────────────────
+function updateClock() {
+  document.getElementById('clock').textContent =
+    new Date().toLocaleTimeString('de-AT', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ─── UI State ────────────────────────────────────────────
+function setStation(key) {
+  currentStation = key;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + key).classList.add('active');
+  loadData();
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + mode).classList.add('active');
+  document.getElementById('col-time').textContent = mode === 'dep' ? 'ABFAHRT' : 'ANKUNFT';
+  document.getElementById('col-dest').textContent = mode === 'dep' ? 'ZIEL' : 'HERKUNFT';
+  loadData();
+}
+
+// ─── Train type styling ──────────────────────────────────
+function getBadgeStyle(name) {
+  const n = (name || '').toUpperCase();
+  if (n.startsWith('RJ') || n.includes('RAILJET'))
+    return { bg:'rgba(232,0,61,0.25)', color:'#ff6680' };
+  if (n.startsWith('ICE'))
+    return { bg:'rgba(255,255,255,0.12)', color:'#ddd' };
+  if (n.startsWith('IC') || n.startsWith('EC'))
+    return { bg:'rgba(255,107,53,0.25)', color:'#ff6b35' };
+  if (/^S\d/.test(n))
+    return { bg:'rgba(0,229,160,0.18)', color:'#00e5a0' };
+  if (n.startsWith('REX') || n.startsWith('R ') || n === 'R')
+    return { bg:'rgba(100,100,180,0.2)', color:'#9999cc' };
+  return { bg:'rgba(90,90,122,0.35)', color:'#8888aa' };
+}
+
+function formatTime(iso) {
+  if (!iso) return '--:--';
+  return new Date(iso).toLocaleTimeString('de-AT', { hour:'2-digit', minute:'2-digit', hour12:false });
+}
+
+function getDelay(planned, actual) {
+  if (!planned || !actual) return 0;
+  return Math.round((new Date(actual) - new Date(planned)) / 60000);
+}
+
+// ─── Render ──────────────────────────────────────────────
+function renderRows(items) {
+  const list = document.getElementById('list');
+  if (!items || items.length === 0) {
+    list.innerHTML = '<div class="loading-state">Keine Daten gefunden</div>';
+    return;
+  }
+
+  list.innerHTML = items.slice(0, 20).map((item, i) => {
+    const isDep = currentMode === 'dep';
+    const planned = isDep ? item.plannedWhen : item.plannedWhen;
+    const actual  = isDep ? item.when : item.when;
+    const delay   = getDelay(planned, actual);
+    const timeStr = formatTime(planned);
+
+    const dest = isDep
+      ? (item.destination?.name || '–')
+      : (item.origin?.name || '–');
+
+    const lineName = item.line?.name || item.line?.fahrtNr || '';
+    const lineType = (lineName.split(' ')[0] || '').toUpperCase();
+    const bs = getBadgeStyle(lineName);
+    const platform = item.plannedPlatform || item.platform || '–';
+
+    let statusColor = '#00e5a0', statusText = 'pünktl.';
+    if (delay > 0 && delay < 5) { statusColor = '#ffd600'; statusText = `+${delay} min`; }
+    if (delay >= 5) { statusColor = '#ff3d5a'; statusText = `+${delay} min`; }
+
+    return `<div class="train-row" style="animation-delay:${i*20}ms">
+      <div class="time">${timeStr}</div>
+      <div class="info">
+        <div class="dest">${dest}</div>
+        <div class="train-line">
+          <span class="badge" style="background:${bs.bg};color:${bs.color}">${lineType}</span>
+          <span class="train-name">${lineName}</span>
+        </div>
+      </div>
+      <div class="status" style="color:${statusColor}">${statusText}</div>
+      <div class="platform"><span>${platform}</span></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('footer').textContent =
+    'Aktualisiert: ' + new Date().toLocaleTimeString('de-AT', { hour:'2-digit', minute:'2-digit', hour12:false }) +
+    ' Uhr · Echtzeit via HAFAS';
+}
+
+// ─── Fetch ───────────────────────────────────────────────
+async function loadData() {
+  const list = document.getElementById('list');
+  list.innerHTML = '<div class="loading-state"><div class="spinner"></div>Lade ' +
+    (currentMode === 'dep' ? 'Abfahrten' : 'Ankünfte') + '…</div>';
+
+  if (refreshTimer) clearTimeout(refreshTimer);
+
+  try {
+    const eva = STATION_IDS[currentStation];
+    const endpoint = currentMode === 'dep' ? 'departures' : 'arrivals';
+    const url = `${API}/stops/${eva}/${endpoint}?results=20&duration=120&language=de`;
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const items = data.departures || data.arrivals || data;
+    renderRows(items);
+
+  } catch (e) {
+    console.error(e);
+    list.innerHTML = `<div class="error-state">
+      <div style="color:var(--red)">⚠ Verbindungsfehler</div>
+      <div style="font-size:10px;margin-top:4px">${e.message}</div>
+      <button class="retry-btn" onclick="loadData()">ERNEUT VERSUCHEN</button>
+    </div>`;
+  }
+
+  // Auto-refresh every 60 seconds
+  refreshTimer = setTimeout(loadData, 60000);
+}
+
+// ─── Init ────────────────────────────────────────────────
+loadData();
+</script>
+
+</body>
+</html>
