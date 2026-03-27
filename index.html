@@ -11,322 +11,103 @@
 <title>Fahrplan</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:      #080810;
-    --surface: #0f0f1a;
-    --card:    #13131f;
-    --border:  #1c1c2e;
-    --border2: #222235;
-    --accent:  #e8003d;
-    --text:    #eeeef8;
-    --sub:     #8888aa;
-    --muted:   #44445a;
-    --green:   #00d48a;
-    --yellow:  #f5c400;
-    --red:     #ff3358;
-  }
-
-- { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-html, body {
-height: 100%;
-background: var(–bg);
-color: var(–text);
-font-family: ‘DM Mono’, monospace;
-overflow: hidden;
+:root {
+  --bg:      #080810;
+  --surface: #0f0f1a;
+  --card:    #13131f;
+  --border:  #1c1c2e;
+  --border2: #222235;
+  --accent:  #e8003d;
+  --text:    #eeeef8;
+  --sub:     #8888aa;
+  --muted:   #44445a;
+  --green:   #00d48a;
+  --yellow:  #f5c400;
+  --red:     #ff3358;
 }
-
-#app {
-display: flex;
-flex-direction: column;
-height: 100vh;
-height: 100dvh;
-padding-top: env(safe-area-inset-top, 0px);
-padding-bottom: env(safe-area-inset-bottom, 0px);
-background: var(–bg);
-}
-
-/* ── HEADER ─────────────────────────────── */
-.header {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 15px 20px;
-background: var(–surface);
-border-bottom: 1px solid var(–border);
-flex-shrink: 0;
-}
-
-.logo {
-font-family: ‘Syne’, sans-serif;
-font-size: 19px;
-font-weight: 800;
-letter-spacing: -0.3px;
-display: flex;
-align-items: center;
-gap: 10px;
-color: var(–text);
-}
-
-.dot {
-width: 8px; height: 8px;
-background: var(–accent);
-border-radius: 50%;
-flex-shrink: 0;
-animation: blink 1.6s ease-in-out infinite;
-}
-
-.clock {
-font-size: 15px;
-letter-spacing: 2px;
-font-variant-numeric: tabular-nums;
-color: var(–sub);
-}
-
-/* ── CONTROLS ───────────────────────────── */
-.controls {
-background: var(–surface);
-border-bottom: 1px solid var(–border);
-flex-shrink: 0;
-}
-
-/* Mode toggle */
-.mode-bar {
-display: flex;
-padding: 10px 16px 0;
-gap: 8px;
-}
-
-.mode-btn {
-flex: 1;
-padding: 9px 4px;
-background: transparent;
-border: 1px solid var(–border2);
-border-radius: 8px;
-color: var(–sub);
-font-family: ‘DM Mono’, monospace;
-font-size: 11px;
-letter-spacing: 1.5px;
-cursor: pointer;
-transition: all 0.18s;
-}
-
-.mode-btn.active {
-background: rgba(232,0,61,0.12);
-border-color: rgba(232,0,61,0.35);
-color: #ff7090;
-}
-
-/* Station tabs */
-.tabs {
-display: flex;
-margin-top: 6px;
-}
-
-.tab {
-flex: 1;
-padding: 11px 8px;
-background: transparent;
-border: none;
-border-bottom: 2px solid transparent;
-color: var(–muted);
-font-family: ‘DM Mono’, monospace;
-font-size: 12px;
-letter-spacing: 1px;
-cursor: pointer;
-transition: all 0.18s;
-}
-
-.tab.active {
-border-bottom-color: var(–accent);
-color: var(–text);
-}
-
-/* ── COLUMN HEADERS ─────────────────────── */
-.col-header {
-display: flex;
-align-items: center;
-padding: 8px 16px;
-font-size: 9px;
-letter-spacing: 2px;
-color: var(–muted);
-border-bottom: 1px solid var(–border);
-text-transform: uppercase;
-flex-shrink: 0;
-background: var(–bg);
-}
-
-/* ── LIST ───────────────────────────────── */
-.list {
-flex: 1;
-overflow-y: auto;
--webkit-overflow-scrolling: touch;
-background: var(–bg);
-}
-
-.list::-webkit-scrollbar { width: 2px; }
-.list::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 2px; }
-
-/* ── TRAIN ROW ──────────────────────────── */
-.train-row {
-display: flex;
-align-items: center;
-padding: 14px 16px;
-border-bottom: 1px solid var(–border);
-gap: 12px;
-background: var(–bg);
-transition: background 0.12s;
-}
-
-.train-row:active { background: var(–card); }
-
-.time {
-font-size: 20px;
-font-weight: 500;
-min-width: 60px;
-font-variant-numeric: tabular-nums;
-color: var(–text);
-letter-spacing: 0.3px;
-}
-
-.info { flex: 1; min-width: 0; }
-
-.dest {
-font-size: 15px;
-font-weight: 500;
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-color: var(–text);
-margin-bottom: 5px;
-}
-
-.train-line {
-display: flex;
-align-items: center;
-gap: 7px;
-}
-
-.badge {
-font-size: 9px;
-padding: 2px 7px;
-border-radius: 4px;
-font-weight: 500;
-letter-spacing: 0.8px;
-flex-shrink: 0;
-}
-
-.train-name {
-font-size: 11px;
-color: var(–sub);
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-}
-
-.status {
-font-size: 12px;
-font-weight: 500;
-text-align: right;
-min-width: 64px;
-}
-
-.plat span {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-background: var(–card);
-border: 1px solid var(–border2);
-width: 34px;
-height: 28px;
-border-radius: 6px;
-font-size: 13px;
-color: var(–sub);
-}
-
-/* ── FOOTER ─────────────────────────────── */
-.footer {
-padding: 8px 16px;
-font-size: 10px;
-color: var(–muted);
-border-top: 1px solid var(–border);
-background: var(–surface);
-flex-shrink: 0;
-display: flex;
-justify-content: space-between;
-align-items: center;
-letter-spacing: 0.5px;
-}
-
-.live-dot {
-width: 6px; height: 6px;
-border-radius: 50%;
-background: var(–green);
-animation: pulse 2.5s ease-in-out infinite;
-}
-
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; overflow:hidden; }
+#app { display:flex; flex-direction:column; height:100vh; height:100dvh; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); background:var(--bg); }
+.header { display:flex; align-items:center; justify-content:space-between; padding:15px 20px; background:var(--surface); border-bottom:1px solid var(--border); flex-shrink:0; }
+.logo { font-family:'Syne',sans-serif; font-size:19px; font-weight:800; letter-spacing:-0.3px; display:flex; align-items:center; gap:10px; color:var(--text); }
+.dot { width:8px; height:8px; background:var(--accent); border-radius:50%; flex-shrink:0; animation:blink 1.6s ease-in-out infinite; }
+.clock { font-size:15px; letter-spacing:2px; font-variant-numeric:tabular-nums; color:var(--sub); }
+.controls { background:var(--surface); border-bottom:1px solid var(--border); flex-shrink:0; }
+.mode-bar { display:flex; padding:10px 16px 0; gap:8px; }
+.mode-btn { flex:1; padding:9px 4px; background:transparent; border:1px solid var(--border2); border-radius:8px; color:var(--sub); font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1.5px; cursor:pointer; transition:all 0.18s; }
+.mode-btn.active { background:rgba(232,0,61,0.12); border-color:rgba(232,0,61,0.35); color:#ff7090; }
+.tabs { display:flex; margin-top:6px; }
+.tab { flex:1; padding:11px 8px; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--muted); font-family:'DM Mono',monospace; font-size:12px; letter-spacing:1px; cursor:pointer; transition:all 0.18s; }
+.tab.active { border-bottom-color:var(--accent); color:var(--text); }
+.col-header { display:flex; align-items:center; padding:8px 16px; font-size:9px; letter-spacing:2px; color:var(--muted); border-bottom:1px solid var(--border); text-transform:uppercase; flex-shrink:0; background:var(--bg); }
+.list { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; background:var(--bg); }
+.list::-webkit-scrollbar { width:2px; }
+.list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+.train-row { display:flex; align-items:center; padding:14px 16px; border-bottom:1px solid var(--border); gap:12px; background:var(--bg); transition:background 0.12s; }
+.train-row:active { background:var(--card); }
+.time { font-size:20px; font-weight:500; min-width:60px; font-variant-numeric:tabular-nums; color:var(--text); letter-spacing:0.3px; }
+.info { flex:1; min-width:0; }
+.dest { font-size:15px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); margin-bottom:5px; }
+.train-line { display:flex; align-items:center; gap:7px; }
+.badge { font-size:9px; padding:2px 7px; border-radius:4px; font-weight:500; letter-spacing:0.8px; flex-shrink:0; }
+.train-name { font-size:11px; color:var(--sub); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.status { font-size:12px; font-weight:500; text-align:right; min-width:64px; }
+.plat span { display:inline-flex; align-items:center; justify-content:center; background:var(--card); border:1px solid var(--border2); width:34px; height:28px; border-radius:6px; font-size:13px; color:var(--sub); }
+.footer { padding:8px 16px; font-size:10px; color:var(--muted); border-top:1px solid var(--border); background:var(--surface); flex-shrink:0; display:flex; justify-content:space-between; align-items:center; letter-spacing:0.5px; }
+.live-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 2.5s ease-in-out infinite; }
 @keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0.1} }
 @keyframes pulse  { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.75)} }
 @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
 </style>
-
 </head>
 <body>
 <div id="app">
-
   <div class="header">
-    <div class="logo"><div class="dot"></div>ÖBB FAHRPLAN</div>
+    <div class="logo"><div class="dot"></div>OeBB FAHRPLAN</div>
     <div class="clock" id="clock">--:--:--</div>
   </div>
-
   <div class="controls">
     <div class="mode-bar">
-      <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">↑ ABFAHRT</button>
-      <button class="mode-btn"        id="btn-arr" onclick="setMode('arr')">↓ ANKUNFT</button>
+      <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">&#8593; ABFAHRT</button>
+      <button class="mode-btn"        id="btn-arr" onclick="setMode('arr')">&#8595; ANKUNFT</button>
     </div>
     <div class="tabs">
       <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
       <button class="tab"        id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
     </div>
   </div>
-
   <div class="col-header">
-    <div style="min-width:60px"              id="col-time">ABFAHRT</div>
-    <div style="flex:1;padding-left:12px"    id="col-dest">ZIEL</div>
+    <div style="min-width:60px"           id="col-time">ABFAHRT</div>
+    <div style="flex:1;padding-left:12px" id="col-dest">ZIEL</div>
     <div style="min-width:64px;text-align:right">STATUS</div>
     <div style="width:34px;text-align:center;margin-left:12px">GL.</div>
   </div>
-
   <div class="list" id="list"></div>
-
   <div class="footer">
-    <span id="footer-text">ÖBB &amp; Westbahn · Österreich</span>
+    <span id="footer-text">OeBB &amp; Westbahn</span>
     <div class="live-dot"></div>
   </div>
-
 </div>
 <script>
-// ── Badge styles ───────────────────────────────────────────────────────────
-const BS = {
-  rj:  { bg:'rgba(232,0,61,0.2)',    c:'#ff7090' },
-  ice: { bg:'rgba(220,220,255,0.1)', c:'#ccccee' },
-  ic:  { bg:'rgba(255,120,40,0.2)',  c:'#ff8844' },
-  s:   { bg:'rgba(0,200,130,0.15)',  c:'#00d48a' },
-  rex: { bg:'rgba(100,100,220,0.18)',c:'#8888cc' },
-  wb:  { bg:'rgba(240,190,0,0.18)',  c:'#f5c400' },
+var BS = {
+  rj:  { bg:'rgba(232,0,61,0.2)',     c:'#ff7090' },
+  ice: { bg:'rgba(220,220,255,0.1)',  c:'#ccccee' },
+  ic:  { bg:'rgba(255,120,40,0.2)',   c:'#ff8844' },
+  s:   { bg:'rgba(0,200,130,0.15)',   c:'#00d48a' },
+  rex: { bg:'rgba(100,100,220,0.18)', c:'#8888cc' },
+  wb:  { bg:'rgba(240,190,0,0.18)',   c:'#f5c400' }
 };
 
-// ── Timetable data ─────────────────────────────────────────────────────────
-const DATA = {
+var DATA = {
 sbg: {
 dep: [
 { dest:‘Wien Westbahnhof’,   train:‘WB 110’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Wien Hbf’,           train:‘RJ 160’,   type:‘rj’,  plat:‘1’ },
-{ dest:‘München Hbf’,        train:‘RJ 61’,    type:‘rj’,  plat:‘3’ },
+{ dest:‘Muenchen Hbf’,       train:‘RJ 61’,    type:‘rj’,  plat:‘3’ },
 { dest:‘Wien Westbahnhof’,   train:‘WB 112’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Innsbruck Hbf’,      train:‘ICE 28’,   type:‘ice’, plat:‘4’ },
 { dest:‘Wien Hbf’,           train:‘RJ 162’,   type:‘rj’,  plat:‘1’ },
-{ dest:‘Zürich HB’,          train:‘EC 163’,   type:‘ic’,  plat:‘5’ },
+{ dest:‘Zuerich HB’,         train:‘EC 163’,   type:‘ic’,  plat:‘5’ },
 { dest:‘Wien Westbahnhof’,   train:‘WB 114’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Graz Hbf’,           train:‘RJ 635’,   type:‘rj’,  plat:‘1’ },
 { dest:‘Budapest Keleti’,    train:‘RJ 63’,    type:‘rj’,  plat:‘3’ },
@@ -335,15 +116,15 @@ dep: [
 { dest:‘Klagenfurt Hbf’,     train:‘EC 113’,   type:‘ic’,  plat:‘4’ },
 { dest:‘Golling-Abtenau’,    train:‘S 3’,      type:‘s’,   plat:‘8’ },
 { dest:‘Wien Hbf’,           train:‘RJ 164’,   type:‘rj’,  plat:‘1’ },
-{ dest:‘Schwarzach-St.Veit’, train:‘REX 3810’, type:‘rex’, plat:‘5’ },
+{ dest:‘Schwarzach-St.Veit’, train:‘REX 3810’, type:‘rex’, plat:‘5’ }
 ],
 arr: [
 { dest:‘Wien Westbahnhof’,   train:‘WB 111’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Wien Hbf’,           train:‘RJ 161’,   type:‘rj’,  plat:‘1’ },
-{ dest:‘München Hbf’,        train:‘RJ 60’,    type:‘rj’,  plat:‘3’ },
+{ dest:‘Muenchen Hbf’,       train:‘RJ 60’,    type:‘rj’,  plat:‘3’ },
 { dest:‘Wien Westbahnhof’,   train:‘WB 113’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Innsbruck Hbf’,      train:‘ICE 27’,   type:‘ice’, plat:‘4’ },
-{ dest:‘Zürich HB’,          train:‘EC 162’,   type:‘ic’,  plat:‘5’ },
+{ dest:‘Zuerich HB’,         train:‘EC 162’,   type:‘ic’,  plat:‘5’ },
 { dest:‘Wien Westbahnhof’,   train:‘WB 115’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Frankfurt Hbf’,      train:‘ICE 26’,   type:‘ice’, plat:‘4’ },
 { dest:‘Graz Hbf’,           train:‘RJ 634’,   type:‘rj’,  plat:‘1’ },
@@ -351,106 +132,115 @@ arr: [
 { dest:‘Wien Westbahnhof’,   train:‘WB 117’,   type:‘wb’,  plat:‘2’ },
 { dest:‘Freilassing’,        train:‘S 1’,      type:‘s’,   plat:‘7’ },
 { dest:‘Klagenfurt Hbf’,     train:‘EC 112’,   type:‘ic’,  plat:‘4’ },
-{ dest:‘Praha hl.n.’,        train:‘RJ 74’,    type:‘rj’,  plat:‘2’ },
+{ dest:‘Praha hl.n.’,        train:‘RJ 74’,    type:‘rj’,  plat:‘2’ }
 ]
 },
 vie: {
 dep: [
 { dest:‘Salzburg Hbf’,       train:‘WB 111’,   type:‘wb’,  plat:‘4’ },
 { dest:‘Salzburg Hbf’,       train:‘RJ 761’,   type:‘rj’,  plat:‘6’ },
-{ dest:‘St. Pölten Hbf’,     train:‘S 50’,     type:‘s’,   plat:‘1’ },
+{ dest:‘St. Poelten Hbf’,    train:‘S 50’,     type:‘s’,   plat:‘1’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 113’,   type:‘wb’,  plat:‘4’ },
 { dest:‘Innsbruck Hbf’,      train:‘RJ 163’,   type:‘rj’,  plat:‘3’ },
 { dest:‘Salzburg Hbf’,       train:‘RJ 763’,   type:‘rj’,  plat:‘6’ },
-{ dest:‘Zürich HB’,          train:‘RJ 165’,   type:‘rj’,  plat:‘5’ },
+{ dest:‘Zuerich HB’,         train:‘RJ 165’,   type:‘rj’,  plat:‘5’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 115’,   type:‘wb’,  plat:‘4’ },
-{ dest:‘München Hbf’,        train:‘RJ 63’,    type:‘rj’,  plat:‘6’ },
-{ dest:‘St. Pölten Hbf’,     train:‘S 50’,     type:‘s’,   plat:‘2’ },
+{ dest:‘Muenchen Hbf’,       train:‘RJ 63’,    type:‘rj’,  plat:‘6’ },
+{ dest:‘St. Poelten Hbf’,    train:‘S 50’,     type:‘s’,   plat:‘2’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 117’,   type:‘wb’,  plat:‘4’ },
 { dest:‘Bregenz’,            train:‘RJ 167’,   type:‘rj’,  plat:‘3’ },
 { dest:‘Amstetten’,          train:‘REX 2110’, type:‘rex’, plat:‘1’ },
 { dest:‘Salzburg Hbf’,       train:‘RJ 765’,   type:‘rj’,  plat:‘6’ },
 { dest:‘Feldkirch’,          train:‘IC 690’,   type:‘ic’,  plat:‘5’ },
-{ dest:‘Salzburg Hbf’,       train:‘WB 119’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 119’,   type:‘wb’,  plat:‘4’ }
 ],
 arr: [
 { dest:‘Salzburg Hbf’,       train:‘WB 110’,   type:‘wb’,  plat:‘4’ },
 { dest:‘Salzburg Hbf’,       train:‘RJ 760’,   type:‘rj’,  plat:‘6’ },
-{ dest:‘St. Pölten Hbf’,     train:‘S 50’,     type:‘s’,   plat:‘1’ },
+{ dest:‘St. Poelten Hbf’,    train:‘S 50’,     type:‘s’,   plat:‘1’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 112’,   type:‘wb’,  plat:‘4’ },
-{ dest:‘München Hbf’,        train:‘RJ 62’,    type:‘rj’,  plat:‘6’ },
+{ dest:‘Muenchen Hbf’,       train:‘RJ 62’,    type:‘rj’,  plat:‘6’ },
 { dest:‘Innsbruck Hbf’,      train:‘RJ 162’,   type:‘rj’,  plat:‘3’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 114’,   type:‘wb’,  plat:‘4’ },
-{ dest:‘Zürich HB’,          train:‘RJ 164’,   type:‘rj’,  plat:‘5’ },
+{ dest:‘Zuerich HB’,         train:‘RJ 164’,   type:‘rj’,  plat:‘5’ },
 { dest:‘Salzburg Hbf’,       train:‘RJ 762’,   type:‘rj’,  plat:‘6’ },
 { dest:‘Bregenz’,            train:‘RJ 166’,   type:‘rj’,  plat:‘3’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 116’,   type:‘wb’,  plat:‘4’ },
 { dest:‘Frankfurt Hbf’,      train:‘ICE 26’,   type:‘ice’, plat:‘7’ },
 { dest:‘Budapest Keleti’,    train:‘RJ 68’,    type:‘rj’,  plat:‘5’ },
 { dest:‘Salzburg Hbf’,       train:‘WB 118’,   type:‘wb’,  plat:‘4’ },
-{ dest:‘Praha hl.n.’,        train:‘RJ 74’,    type:‘rj’,  plat:‘6’ },
+{ dest:‘Praha hl.n.’,        train:‘RJ 74’,    type:‘rj’,  plat:‘6’ }
 ]
 }
 };
 
-// ── State ──────────────────────────────────────────────────────────────────
-let station = ‘sbg’, mode = ‘dep’;
+var station = ‘sbg’;
+var mode = ‘dep’;
 
-// ── Clock ──────────────────────────────────────────────────────────────────
 function tick() {
 document.getElementById(‘clock’).textContent =
-new Date().toLocaleTimeString(‘de-AT’,{hour:‘2-digit’,minute:‘2-digit’,second:‘2-digit’,hour12:false});
+new Date().toLocaleTimeString(‘de-AT’, {hour:‘2-digit’, minute:‘2-digit’, second:‘2-digit’, hour12:false});
 }
-setInterval(tick, 1000); tick();
+setInterval(tick, 1000);
+tick();
 
-// ── Generate realistic times from now ─────────────────────────────────────
 function withTimes(entries) {
-let t = Date.now() + (1 + Math.random() * 2) * 60000;
-return entries.map((e, i) => {
-if (i) t += (4 + Math.random() * 9) * 60000;
-const d = new Date(t);
-return {
-…e,
-time: d.toLocaleTimeString(‘de-AT’,{hour:‘2-digit’,minute:‘2-digit’,hour12:false}),
-delay: Math.random() < 0.16 ? Math.ceil(Math.random() * 12) : 0,
-};
+var t = Date.now() + (1 + Math.random() * 2) * 60000;
+return entries.map(function(e, i) {
+if (i > 0) { t += (4 + Math.random() * 9) * 60000; }
+var d = new Date(t);
+var time = d.toLocaleTimeString(‘de-AT’, {hour:‘2-digit’, minute:‘2-digit’, hour12:false});
+var delay = Math.random() < 0.16 ? Math.ceil(Math.random() * 12) : 0;
+return { dest:e.dest, train:e.train, type:e.type, plat:e.plat, time:time, delay:delay };
 });
 }
 
-// ── Render ─────────────────────────────────────────────────────────────────
 function render() {
-const rows = withTimes(DATA[station][mode]);
-document.getElementById(‘list’).innerHTML = rows.map((r, i) => {
-const bs = BS[r.type] || BS.rex;
-let sc = ‘var(–green)’, st = ‘pünktl.’;
-if (r.delay > 0 && r.delay < 5) { sc = ‘var(–yellow)’; st = `+${r.delay} min`; }
-if (r.delay >= 5)                { sc = ‘var(–red)’;    st = `+${r.delay} min`; }
-return `<div class="train-row" style="animation:fadeUp .32s ease ${i*18}ms both"> <div class="time">${r.time}</div> <div class="info"> <div class="dest">${r.dest}</div> <div class="train-line"> <span class="badge" style="background:${bs.bg};color:${bs.c}">${r.type==='wb'?'WB':r.train.split(' ')[0]}</span> <span class="train-name">${r.train}</span> </div> </div> <div class="status" style="color:${sc}">${st}</div> <div class="plat"><span>${r.plat}</span></div> </div>`;
-}).join(’’);
-
-document.getElementById(‘footer-text’).textContent =
-new Date().toLocaleTimeString(‘de-AT’,{hour:‘2-digit’,minute:‘2-digit’,hour12:false}) +
-’ Uhr · ÖBB & Westbahn’;
+var rows = withTimes(DATA[station][mode]);
+var html = ‘’;
+for (var i = 0; i < rows.length; i++) {
+var r = rows[i];
+var bs = BS[r.type] || BS.rex;
+var sc = ‘var(–green)’;
+var st = ‘punktl.’;
+if (r.delay > 0 && r.delay < 5) { sc = ‘var(–yellow)’; st = ‘+’ + r.delay + ’ min’; }
+if (r.delay >= 5)                { sc = ‘var(–red)’;    st = ‘+’ + r.delay + ’ min’; }
+var typeLabel = r.type === ‘wb’ ? ‘WB’ : r.train.split(’ ‘)[0];
+html += ‘<div class="train-row" style="animation:fadeUp .32s ease ' + (i*18) + 'ms both">’;
+html += ‘<div class="time">’ + r.time + ‘</div>’;
+html += ‘<div class="info">’;
+html += ‘<div class="dest">’ + r.dest + ‘</div>’;
+html += ‘<div class="train-line">’;
+html += ‘<span class="badge" style="background:' + bs.bg + ';color:' + bs.c + '">’ + typeLabel + ‘</span>’;
+html += ‘<span class="train-name">’ + r.train + ‘</span>’;
+html += ‘</div></div>’;
+html += ‘<div class="status" style="color:' + sc + '">’ + st + ‘</div>’;
+html += ‘<div class="plat"><span>’ + r.plat + ‘</span></div>’;
+html += ‘</div>’;
+}
+document.getElementById(‘list’).innerHTML = html;
+var now = new Date().toLocaleTimeString(‘de-AT’, {hour:‘2-digit’, minute:‘2-digit’, hour12:false});
+document.getElementById(‘footer-text’).textContent = now + ’ Uhr - OeBB & Westbahn’;
 }
 
-// ── Controls ───────────────────────────────────────────────────────────────
 function setStation(k) {
 station = k;
-document.querySelectorAll(’.tab’).forEach(t => t.classList.remove(‘active’));
-document.getElementById(‘tab-’+k).classList.add(‘active’);
+var tabs = document.querySelectorAll(’.tab’);
+for (var i = 0; i < tabs.length; i++) { tabs[i].classList.remove(‘active’); }
+document.getElementById(‘tab-’ + k).classList.add(‘active’);
 render();
 }
 
 function setMode(m) {
 mode = m;
-document.querySelectorAll(’.mode-btn’).forEach(b => b.classList.remove(‘active’));
-document.getElementById(‘btn-’+m).classList.add(‘active’);
-document.getElementById(‘col-time’).textContent = m===‘dep’ ? ‘ABFAHRT’ : ‘ANKUNFT’;
-document.getElementById(‘col-dest’).textContent = m===‘dep’ ? ‘ZIEL’    : ‘HERKUNFT’;
+var btns = document.querySelectorAll(’.mode-btn’);
+for (var i = 0; i < btns.length; i++) { btns[i].classList.remove(‘active’); }
+document.getElementById(‘btn-’ + m).classList.add(‘active’);
+document.getElementById(‘col-time’).textContent = m === ‘dep’ ? ‘ABFAHRT’ : ‘ANKUNFT’;
+document.getElementById(‘col-dest’).textContent = m === ‘dep’ ? ‘ZIEL’    : ‘HERKUNFT’;
 render();
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
 render();
 setInterval(render, 60000);
 </script>
