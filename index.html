@@ -1,207 +1,177 @@
 <!DOCTYPE html>
 
-<html lang="de">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Fahrplan">
-<meta name="theme-color" content="#0a0a0f">
 <title>Fahrplan</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#0a0a0f;--panel:#111118;--border:#1e1e2e;--accent:#e8003d;
-    --text:#f0f0f8;--muted:#5a5a7a;--green:#00e5a0;--yellow:#ffd600;--red:#ff3d5a;
-    --mono:'DM Mono',monospace;--display:'Syne',sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow:hidden;}
-  #app{display:flex;flex-direction:column;height:100vh;height:100dvh;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
-  .header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#111118;border-bottom:1px solid #1e1e2e;flex-shrink:0;}
-  .logo{font-family:var(--display);font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px;}
-  .dot{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:blink 1.4s ease-in-out infinite;}
-  .clock{font-size:14px;letter-spacing:2px;}
-  .mode-bar{display:flex;gap:8px;padding:10px 16px;background:#0d0d14;border-bottom:1px solid #1e1e2e;flex-shrink:0;}
-  .mode-btn{flex:1;padding:9px 4px;background:rgba(255,255,255,0.03);border:1px solid #1e1e2e;border-radius:8px;color:#5a5a7a;font-family:var(--mono);font-size:11px;letter-spacing:1px;cursor:pointer;}
-  .mode-btn.active{background:rgba(232,0,61,0.15);border-color:rgba(232,0,61,0.4);color:#ff6680;}
-  .tabs{display:flex;background:#0d0d14;border-bottom:1px solid #1e1e2e;flex-shrink:0;}
-  .tab{flex:1;padding:13px 8px;background:none;border:none;border-bottom:2px solid transparent;color:#5a5a7a;font-family:var(--mono);font-size:12px;letter-spacing:1px;cursor:pointer;}
-  .tab.active{border-bottom-color:var(--accent);color:var(--text);}
-  .col-header{display:flex;padding:6px 16px;font-size:9px;letter-spacing:2px;color:#5a5a7a;border-bottom:1px solid #1e1e2e;text-transform:uppercase;flex-shrink:0;}
-  .list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-  .train-row{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(30,30,46,0.6);gap:12px;}
-  .time{font-size:20px;font-weight:500;min-width:58px;}
-  .info{flex:1;min-width:0;}
-  .dest{font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px;}
-  .train-line{display:flex;align-items:center;gap:6px;}
-  .badge{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:500;flex-shrink:0;}
-  .train-name{font-size:11px;color:#5a5a7a;}
-  .status{font-size:12px;font-weight:500;text-align:right;min-width:60px;}
-  .plat span{display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);width:32px;height:26px;border-radius:5px;font-size:12px;}
-  .footer{padding:7px 16px;font-size:10px;color:#3a3a5a;border-top:1px solid #1e1e2e;flex-shrink:0;}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.15}}
+body{margin:0;background:#09090f;color:#eef;font-family:monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+#hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#111;border-bottom:1px solid #222;}
+#hdr b{font-size:17px;letter-spacing:1px;}
+#hdr span{font-size:14px;color:#888;letter-spacing:2px;}
+#modes{display:flex;gap:8px;padding:10px 16px;background:#0d0d14;border-bottom:1px solid #222;}
+.mbtn{flex:1;padding:9px;background:#111;border:1px solid #333;border-radius:8px;color:#666;font-family:monospace;font-size:12px;cursor:pointer;}
+.mbtn.on{background:rgba(232,0,61,0.15);border-color:rgba(232,0,61,0.5);color:#ff7090;}
+#tabs{display:flex;background:#0d0d14;border-bottom:1px solid #222;}
+.tbtn{flex:1;padding:12px;background:none;border:none;border-bottom:2px solid transparent;color:#555;font-family:monospace;font-size:12px;cursor:pointer;letter-spacing:1px;}
+.tbtn.on{border-bottom-color:#e8003d;color:#eef;}
+#cols{display:flex;padding:6px 16px;font-size:9px;letter-spacing:2px;color:#444;border-bottom:1px solid #222;text-transform:uppercase;}
+#list{flex:1;overflow-y:auto;}
+.row{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,0.05);gap:12px;}
+.t{font-size:19px;font-weight:bold;min-width:56px;color:#eef;}
+.mid{flex:1;min-width:0;}
+.dest{font-size:14px;font-weight:bold;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px;}
+.sub{display:flex;align-items:center;gap:6px;}
+.badge{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:bold;}
+.tname{font-size:11px;color:#666;}
+.st{font-size:12px;font-weight:bold;text-align:right;min-width:58px;}
+.gl span{display:inline-flex;align-items:center;justify-content:center;background:#1a1a2e;border:1px solid #333;width:30px;height:26px;border-radius:5px;font-size:12px;}
+#ftr{padding:7px 16px;font-size:10px;color:#333;border-top:1px solid #222;}
+.dot{width:8px;height:8px;background:#e8003d;border-radius:50%;display:inline-block;margin-right:8px;animation:bl 1.4s infinite;}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:0.1}}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="header">
-    <div class="logo"><div class="dot"></div>OeBB FAHRPLAN</div>
-    <div class="clock" id="clock">--:--:--</div>
-  </div>
-  <div class="mode-bar">
-    <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">&#8593; ABFAHRT</button>
-    <button class="mode-btn" id="btn-arr" onclick="setMode('arr')">&#8595; ANKUNFT</button>
-  </div>
-  <div class="tabs">
-    <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
-    <button class="tab" id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
-  </div>
-  <div class="col-header">
-    <div style="min-width:58px" id="col-time">ABFAHRT</div>
-    <div style="flex:1;padding-left:8px" id="col-dest">ZIEL</div>
-    <div style="min-width:60px;text-align:right">STATUS</div>
-    <div style="width:32px;text-align:center;margin-left:12px">GL.</div>
-  </div>
-  <div class="list" id="list"></div>
-  <div class="footer" id="footer">OeBB &amp; Westbahn</div>
+<div id="hdr"><b><span class="dot"></span>OeBB FAHRPLAN</b><span id="clk">--:--:--</span></div>
+<div id="modes">
+  <button class="mbtn on" id="bdep" onclick="setMode('dep')">&#8593; ABFAHRT</button>
+  <button class="mbtn" id="barr" onclick="setMode('arr')">&#8595; ANKUNFT</button>
 </div>
+<div id="tabs">
+  <button class="tbtn on" id="tsbg" onclick="setStation('sbg')">Salzburg Hbf</button>
+  <button class="tbtn" id="tvie" onclick="setStation('vie')">Wien Westbhf</button>
+</div>
+<div id="cols">
+  <div style="min-width:56px" id="ctime">ABFAHRT</div>
+  <div style="flex:1;padding-left:8px" id="cdest">ZIEL</div>
+  <div style="min-width:58px;text-align:right">STATUS</div>
+  <div style="width:30px;text-align:center;margin-left:12px">GL</div>
+</div>
+<div id="list"></div>
+<div id="ftr">OeBB &amp; Westbahn</div>
 <script>
-var BS={
-  rj:{bg:'rgba(232,0,61,0.2)',c:'#ff6680'},
-  ice:{bg:'rgba(255,255,255,0.1)',c:'#dddddd'},
-  ic:{bg:'rgba(255,107,53,0.2)',c:'#ff6b35'},
-  s:{bg:'rgba(0,229,160,0.15)',c:'#00e5a0'},
-  rex:{bg:'rgba(100,100,200,0.2)',c:'#9999dd'},
-  wb:{bg:'rgba(240,190,0,0.2)',c:'#ffd600'}
-};
-var DATA={
-  sbg:{
-    dep:[
-      {d:'Wien Westbahnhof',t:'WB 110',y:'wb',p:'2'},
-      {d:'Wien Hbf',t:'RJ 160',y:'rj',p:'1'},
-      {d:'Muenchen Hbf',t:'RJ 61',y:'rj',p:'3'},
-      {d:'Wien Westbahnhof',t:'WB 112',y:'wb',p:'2'},
-      {d:'Innsbruck Hbf',t:'ICE 28',y:'ice',p:'4'},
-      {d:'Wien Hbf',t:'RJ 162',y:'rj',p:'1'},
-      {d:'Zuerich HB',t:'EC 163',y:'ic',p:'5'},
-      {d:'Wien Westbahnhof',t:'WB 114',y:'wb',p:'2'},
-      {d:'Graz Hbf',t:'RJ 635',y:'rj',p:'1'},
-      {d:'Budapest Keleti',t:'RJ 63',y:'rj',p:'3'},
-      {d:'Freilassing',t:'S 1',y:'s',p:'7'},
-      {d:'Wien Westbahnhof',t:'WB 116',y:'wb',p:'2'},
-      {d:'Klagenfurt Hbf',t:'EC 113',y:'ic',p:'4'},
-      {d:'Wien Hbf',t:'RJ 164',y:'rj',p:'1'}
-    ],
-    arr:[
-      {d:'Wien Westbahnhof',t:'WB 111',y:'wb',p:'2'},
-      {d:'Wien Hbf',t:'RJ 161',y:'rj',p:'1'},
-      {d:'Muenchen Hbf',t:'RJ 60',y:'rj',p:'3'},
-      {d:'Wien Westbahnhof',t:'WB 113',y:'wb',p:'2'},
-      {d:'Innsbruck Hbf',t:'ICE 27',y:'ice',p:'4'},
-      {d:'Zuerich HB',t:'EC 162',y:'ic',p:'5'},
-      {d:'Wien Westbahnhof',t:'WB 115',y:'wb',p:'2'},
-      {d:'Frankfurt Hbf',t:'ICE 26',y:'ice',p:'4'},
-      {d:'Graz Hbf',t:'RJ 634',y:'rj',p:'1'},
-      {d:'Budapest Keleti',t:'RJ 62',y:'rj',p:'3'},
-      {d:'Wien Westbahnhof',t:'WB 117',y:'wb',p:'2'},
-      {d:'Klagenfurt Hbf',t:'EC 112',y:'ic',p:'4'},
-      {d:'Praha hl.n.',t:'RJ 74',y:'rj',p:'2'},
-      {d:'Freilassing',t:'S 1',y:'s',p:'7'}
-    ]
-  },
-  vie:{
-    dep:[
-      {d:'Salzburg Hbf',t:'WB 111',y:'wb',p:'4'},
-      {d:'Salzburg Hbf',t:'RJ 761',y:'rj',p:'6'},
-      {d:'St. Poelten Hbf',t:'S 50',y:'s',p:'1'},
-      {d:'Salzburg Hbf',t:'WB 113',y:'wb',p:'4'},
-      {d:'Innsbruck Hbf',t:'RJ 163',y:'rj',p:'3'},
-      {d:'Salzburg Hbf',t:'RJ 763',y:'rj',p:'6'},
-      {d:'Zuerich HB',t:'RJ 165',y:'rj',p:'5'},
-      {d:'Salzburg Hbf',t:'WB 115',y:'wb',p:'4'},
-      {d:'Muenchen Hbf',t:'RJ 63',y:'rj',p:'6'},
-      {d:'St. Poelten Hbf',t:'S 50',y:'s',p:'2'},
-      {d:'Salzburg Hbf',t:'WB 117',y:'wb',p:'4'},
-      {d:'Bregenz',t:'RJ 167',y:'rj',p:'3'},
-      {d:'Salzburg Hbf',t:'RJ 765',y:'rj',p:'6'},
-      {d:'Feldkirch',t:'IC 690',y:'ic',p:'5'}
-    ],
-    arr:[
-      {d:'Salzburg Hbf',t:'WB 110',y:'wb',p:'4'},
-      {d:'Salzburg Hbf',t:'RJ 760',y:'rj',p:'6'},
-      {d:'St. Poelten Hbf',t:'S 50',y:'s',p:'1'},
-      {d:'Salzburg Hbf',t:'WB 112',y:'wb',p:'4'},
-      {d:'Muenchen Hbf',t:'RJ 62',y:'rj',p:'6'},
-      {d:'Innsbruck Hbf',t:'RJ 162',y:'rj',p:'3'},
-      {d:'Salzburg Hbf',t:'WB 114',y:'wb',p:'4'},
-      {d:'Zuerich HB',t:'RJ 164',y:'rj',p:'5'},
-      {d:'Salzburg Hbf',t:'RJ 762',y:'rj',p:'6'},
-      {d:'Bregenz',t:'RJ 166',y:'rj',p:'3'},
-      {d:'Salzburg Hbf',t:'WB 116',y:'wb',p:'4'},
-      {d:'Frankfurt Hbf',t:'ICE 26',y:'ice',p:'7'},
-      {d:'Budapest Keleti',t:'RJ 68',y:'rj',p:'5'},
-      {d:'Praha hl.n.',t:'RJ 74',y:'rj',p:'6'}
-    ]
-  }
+var D={
+ sbg:{
+  dep:[
+   ['Wien Westbahnhof','WB 110','wb','#ffd600','2'],
+   ['Wien Hbf','RJ 160','rj','#ff6680','1'],
+   ['Muenchen Hbf','RJ 61','rj','#ff6680','3'],
+   ['Wien Westbahnhof','WB 112','wb','#ffd600','2'],
+   ['Innsbruck Hbf','ICE 28','ice','#ccc','4'],
+   ['Wien Hbf','RJ 162','rj','#ff6680','1'],
+   ['Zuerich HB','EC 163','ic','#ff8844','5'],
+   ['Wien Westbahnhof','WB 114','wb','#ffd600','2'],
+   ['Graz Hbf','RJ 635','rj','#ff6680','1'],
+   ['Budapest Keleti','RJ 63','rj','#ff6680','3'],
+   ['Freilassing','S 1','s','#00e5a0','7'],
+   ['Wien Westbahnhof','WB 116','wb','#ffd600','2'],
+   ['Klagenfurt Hbf','EC 113','ic','#ff8844','4'],
+   ['Wien Hbf','RJ 164','rj','#ff6680','1']
+  ],
+  arr:[
+   ['Wien Westbahnhof','WB 111','wb','#ffd600','2'],
+   ['Wien Hbf','RJ 161','rj','#ff6680','1'],
+   ['Muenchen Hbf','RJ 60','rj','#ff6680','3'],
+   ['Wien Westbahnhof','WB 113','wb','#ffd600','2'],
+   ['Innsbruck Hbf','ICE 27','ice','#ccc','4'],
+   ['Zuerich HB','EC 162','ic','#ff8844','5'],
+   ['Wien Westbahnhof','WB 115','wb','#ffd600','2'],
+   ['Frankfurt Hbf','ICE 26','ice','#ccc','4'],
+   ['Graz Hbf','RJ 634','rj','#ff6680','1'],
+   ['Budapest Keleti','RJ 62','rj','#ff6680','3'],
+   ['Wien Westbahnhof','WB 117','wb','#ffd600','2'],
+   ['Klagenfurt Hbf','EC 112','ic','#ff8844','4'],
+   ['Praha hl.n.','RJ 74','rj','#ff6680','2'],
+   ['Freilassing','S 1','s','#00e5a0','7']
+  ]
+ },
+ vie:{
+  dep:[
+   ['Salzburg Hbf','WB 111','wb','#ffd600','4'],
+   ['Salzburg Hbf','RJ 761','rj','#ff6680','6'],
+   ['St. Poelten Hbf','S 50','s','#00e5a0','1'],
+   ['Salzburg Hbf','WB 113','wb','#ffd600','4'],
+   ['Innsbruck Hbf','RJ 163','rj','#ff6680','3'],
+   ['Salzburg Hbf','RJ 763','rj','#ff6680','6'],
+   ['Zuerich HB','RJ 165','rj','#ff6680','5'],
+   ['Salzburg Hbf','WB 115','wb','#ffd600','4'],
+   ['Muenchen Hbf','RJ 63','rj','#ff6680','6'],
+   ['St. Poelten Hbf','S 50','s','#00e5a0','2'],
+   ['Salzburg Hbf','WB 117','wb','#ffd600','4'],
+   ['Bregenz','RJ 167','rj','#ff6680','3'],
+   ['Salzburg Hbf','RJ 765','rj','#ff6680','6'],
+   ['Feldkirch','IC 690','ic','#ff8844','5']
+  ],
+  arr:[
+   ['Salzburg Hbf','WB 110','wb','#ffd600','4'],
+   ['Salzburg Hbf','RJ 760','rj','#ff6680','6'],
+   ['St. Poelten Hbf','S 50','s','#00e5a0','1'],
+   ['Salzburg Hbf','WB 112','wb','#ffd600','4'],
+   ['Muenchen Hbf','RJ 62','rj','#ff6680','6'],
+   ['Innsbruck Hbf','RJ 162','rj','#ff6680','3'],
+   ['Salzburg Hbf','WB 114','wb','#ffd600','4'],
+   ['Zuerich HB','RJ 164','rj','#ff6680','5'],
+   ['Salzburg Hbf','RJ 762','rj','#ff6680','6'],
+   ['Bregenz','RJ 166','rj','#ff6680','3'],
+   ['Salzburg Hbf','WB 116','wb','#ffd600','4'],
+   ['Frankfurt Hbf','ICE 26','ice','#ccc','7'],
+   ['Budapest Keleti','RJ 68','rj','#ff6680','5'],
+   ['Praha hl.n.','RJ 74','rj','#ff6680','6']
+  ]
+ }
 };
 
-var station=‘sbg’, mode=‘dep’;
+var st=‘sbg’, md=‘dep’;
 
-function pad(n){return n<10?‘0’+n:’’+n;}
-function ftime(ms){var d=new Date(ms);return pad(d.getHours())+’:’+pad(d.getMinutes());}
-
-function tick(){
-var d=new Date();
-document.getElementById(‘clock’).textContent=pad(d.getHours())+’:’+pad(d.getMinutes())+’:’+pad(d.getSeconds());
-}
+function pad(n){return(n<10?‘0’:’’)+n;}
+function tick(){var d=new Date();document.getElementById(‘clk’).textContent=pad(d.getHours())+’:’+pad(d.getMinutes())+’:’+pad(d.getSeconds());}
 setInterval(tick,1000);tick();
 
 function render(){
-var entries=DATA[station][mode];
+var rows=D[st][md];
 var t=Date.now()+(1+Math.random()*2)*60000;
-var html=’’;
-for(var i=0;i<entries.length;i++){
+var h=’’;
+for(var i=0;i<rows.length;i++){
 if(i>0)t+=(4+Math.random()*9)*60000;
-var e=entries[i];
-var bs=BS[e.y]||BS.rex;
-var delay=Math.random()<0.16?Math.ceil(Math.random()*12):0;
-var sc=’#00e5a0’,st=‘punktl.’;
-if(delay>0&&delay<5){sc=’#ffd600’;st=’+’+delay+’ min’;}
-if(delay>=5){sc=’#ff3d5a’;st=’+’+delay+’ min’;}
-var tl=e.y===‘wb’?‘WB’:e.t.split(’ ‘)[0];
-html+=’<div class="train-row">’;
-html+=’<div class="time">’+ftime(t)+’</div>’;
-html+=’<div class="info"><div class="dest">’+e.d+’</div>’;
-html+=’<div class="train-line"><span class="badge" style="background:'+bs.bg+';color:'+bs.c+'">’+tl+’</span>’;
-html+=’<span class="train-name">’+e.t+’</span></div></div>’;
-html+=’<div class="status" style="color:'+sc+'">’+st+’</div>’;
-html+=’<div class="plat"><span>’+e.p+’</span></div>’;
-html+=’</div>’;
+var r=rows[i];
+var dl=Math.random()<0.16?Math.ceil(Math.random()*12):0;
+var sc=’#00e5a0’,ss=‘punktl.’;
+if(dl>0&&dl<5){sc=’#ffd600’;ss=’+’+dl+’ min’;}
+if(dl>=5){sc=’#ff3d5a’;ss=’+’+dl+’ min’;}
+var d=new Date(t);
+var tm=pad(d.getHours())+’:’+pad(d.getMinutes());
+var tl=r[2]===‘wb’?‘WB’:r[1].split(’ ‘)[0];
+var bg=r[2]===‘wb’?‘rgba(255,214,0,0.15)’:r[2]===‘rj’?‘rgba(232,0,61,0.2)’:r[2]===‘ice’?‘rgba(255,255,255,0.1)’:r[2]===‘s’?‘rgba(0,229,160,0.15)’:‘rgba(255,107,53,0.2)’;
+h+=’<div class="row">’;
+h+=’<div class="t">’+tm+’</div>’;
+h+=’<div class="mid"><div class="dest">’+r[0]+’</div>’;
+h+=’<div class="sub"><span class="badge" style="background:'+bg+';color:'+r[3]+'">’+tl+’</span>’;
+h+=’<span class="tname">’+r[1]+’</span></div></div>’;
+h+=’<div class="st" style="color:'+sc+'">’+ss+’</div>’;
+h+=’<div class="gl"><span>’+r[4]+’</span></div>’;
+h+=’</div>’;
 }
-document.getElementById(‘list’).innerHTML=html;
+document.getElementById(‘list’).innerHTML=h;
 var n=new Date();
-document.getElementById(‘footer’).textContent=pad(n.getHours())+’:’+pad(n.getMinutes())+’ Uhr - OeBB & Westbahn’;
+document.getElementById(‘ftr’).textContent=pad(n.getHours())+’:’+pad(n.getMinutes())+’ - OeBB & Westbahn’;
 }
 
 function setStation(k){
-station=k;
-var tabs=document.querySelectorAll(’.tab’);
-for(var i=0;i<tabs.length;i++)tabs[i].classList.remove(‘active’);
-document.getElementById(‘tab-’+k).classList.add(‘active’);
+st=k;
+document.getElementById(‘tsbg’).className=‘tbtn’+(k==‘sbg’?’ on’:’’);
+document.getElementById(‘tvie’).className=‘tbtn’+(k==‘vie’?’ on’:’’);
 render();
 }
 function setMode(m){
-mode=m;
-var btns=document.querySelectorAll(’.mode-btn’);
-for(var i=0;i<btns.length;i++)btns[i].classList.remove(‘active’);
-document.getElementById(‘btn-’+m).classList.add(‘active’);
-document.getElementById(‘col-time’).textContent=m===‘dep’?‘ABFAHRT’:‘ANKUNFT’;
-document.getElementById(‘col-dest’).textContent=m===‘dep’?‘ZIEL’:‘HERKUNFT’;
+md=m;
+document.getElementById(‘bdep’).className=‘mbtn’+(m==‘dep’?’ on’:’’);
+document.getElementById(‘barr’).className=‘mbtn’+(m==‘arr’?’ on’:’’);
+document.getElementById(‘ctime’).textContent=m==‘dep’?‘ABFAHRT’:‘ANKUNFT’;
+document.getElementById(‘cdest’).textContent=m==‘dep’?‘ZIEL’:‘HERKUNFT’;
 render();
 }
-
 render();
 setInterval(render,60000);
 </script>
