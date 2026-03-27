@@ -6,24 +6,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ÖBB">
-<meta name="theme-color" content="#0a0a0f">
-<title>ÖBB Fahrplan</title>
+<meta name="apple-mobile-web-app-title" content="Fahrplan">
+<meta name="theme-color" content="#080810">
+<title>Fahrplan</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0f;
-    --panel: #111118;
-    --border: #1e1e2e;
-    --accent: #e8003d;
-    --text: #f0f0f8;
-    --muted: #5a5a7a;
-    --green: #00e5a0;
-    --yellow: #ffd600;
-    --red: #ff3d5a;
+    --bg:      #080810;
+    --surface: #0f0f1a;
+    --card:    #13131f;
+    --border:  #1c1c2e;
+    --border2: #222235;
+    --accent:  #e8003d;
+    --text:    #eeeef8;
+    --sub:     #8888aa;
+    --muted:   #44445a;
+    --green:   #00d48a;
+    --yellow:  #f5c400;
+    --red:     #ff3358;
   }
 
-- { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+- { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
 html, body {
 height: 100%;
@@ -40,86 +43,90 @@ height: 100vh;
 height: 100dvh;
 padding-top: env(safe-area-inset-top, 0px);
 padding-bottom: env(safe-area-inset-bottom, 0px);
+background: var(–bg);
 }
 
-/* HEADER */
+/* ── HEADER ─────────────────────────────── */
 .header {
 display: flex;
 align-items: center;
 justify-content: space-between;
-padding: 16px 20px;
-background: var(–panel);
+padding: 15px 20px;
+background: var(–surface);
 border-bottom: 1px solid var(–border);
 flex-shrink: 0;
 }
 
 .logo {
 font-family: ‘Syne’, sans-serif;
-font-size: 20px;
+font-size: 19px;
 font-weight: 800;
-letter-spacing: -0.5px;
+letter-spacing: -0.3px;
 display: flex;
 align-items: center;
 gap: 10px;
-}
-
-.dot {
-width: 9px; height: 9px;
-background: var(–accent);
-border-radius: 50%;
-animation: blink 1.4s ease-in-out infinite;
-flex-shrink: 0;
-}
-
-.clock {
-font-size: 16px;
-letter-spacing: 2px;
-font-variant-numeric: tabular-nums;
 color: var(–text);
 }
 
-/* MODE TOGGLE */
-.mode-bar {
-display: flex;
-gap: 8px;
-padding: 10px 16px;
-background: #0d0d14;
+.dot {
+width: 8px; height: 8px;
+background: var(–accent);
+border-radius: 50%;
+flex-shrink: 0;
+animation: blink 1.6s ease-in-out infinite;
+}
+
+.clock {
+font-size: 15px;
+letter-spacing: 2px;
+font-variant-numeric: tabular-nums;
+color: var(–sub);
+}
+
+/* ── CONTROLS ───────────────────────────── */
+.controls {
+background: var(–surface);
 border-bottom: 1px solid var(–border);
 flex-shrink: 0;
+}
+
+/* Mode toggle */
+.mode-bar {
+display: flex;
+padding: 10px 16px 0;
+gap: 8px;
 }
 
 .mode-btn {
 flex: 1;
 padding: 9px 4px;
-background: rgba(255,255,255,0.03);
-border: 1px solid var(–border);
+background: transparent;
+border: 1px solid var(–border2);
 border-radius: 8px;
-color: var(–muted);
+color: var(–sub);
 font-family: ‘DM Mono’, monospace;
-font-size: 12px;
-letter-spacing: 1px;
+font-size: 11px;
+letter-spacing: 1.5px;
 cursor: pointer;
-transition: all 0.2s;
+transition: all 0.18s;
 }
 
 .mode-btn.active {
-background: rgba(232, 0, 61, 0.15);
-border-color: rgba(232, 0, 61, 0.4);
-color: #ff6680;
+background: rgba(232,0,61,0.12);
+border-color: rgba(232,0,61,0.35);
+color: #ff7090;
 }
 
-/* STATION TABS */
+/* Station tabs */
 .tabs {
 display: flex;
-background: #0d0d14;
-border-bottom: 1px solid var(–border);
-flex-shrink: 0;
+margin-top: 6px;
 }
 
 .tab {
 flex: 1;
-padding: 13px 8px;
-background: none;
+padding: 11px 8px;
+background: transparent;
 border: none;
 border-bottom: 2px solid transparent;
 color: var(–muted);
@@ -127,57 +134,59 @@ font-family: ‘DM Mono’, monospace;
 font-size: 12px;
 letter-spacing: 1px;
 cursor: pointer;
-transition: all 0.2s;
+transition: all 0.18s;
 }
 
 .tab.active {
 border-bottom-color: var(–accent);
 color: var(–text);
-font-weight: 500;
 }
 
-/* COL HEADERS */
+/* ── COLUMN HEADERS ─────────────────────── */
 .col-header {
 display: flex;
-padding: 7px 16px;
+align-items: center;
+padding: 8px 16px;
 font-size: 9px;
 letter-spacing: 2px;
 color: var(–muted);
 border-bottom: 1px solid var(–border);
 text-transform: uppercase;
 flex-shrink: 0;
-background: rgba(255,255,255,0.01);
+background: var(–bg);
 }
 
-/* LIST */
+/* ── LIST ───────────────────────────────── */
 .list {
 flex: 1;
 overflow-y: auto;
 -webkit-overflow-scrolling: touch;
+background: var(–bg);
 }
 
 .list::-webkit-scrollbar { width: 2px; }
-.list::-webkit-scrollbar-thumb { background: var(–border); border-radius: 2px; }
+.list::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 2px; }
 
-/* TRAIN ROW */
+/* ── TRAIN ROW ──────────────────────────── */
 .train-row {
 display: flex;
 align-items: center;
-padding: 13px 16px;
-border-bottom: 1px solid rgba(30, 30, 46, 0.7);
+padding: 14px 16px;
+border-bottom: 1px solid var(–border);
 gap: 12px;
-transition: background 0.15s;
+background: var(–bg);
+transition: background 0.12s;
 }
 
-.train-row:active { background: rgba(255,255,255,0.025); }
+.train-row:active { background: var(–card); }
 
 .time {
 font-size: 20px;
 font-weight: 500;
-min-width: 58px;
-letter-spacing: 0.5px;
+min-width: 60px;
 font-variant-numeric: tabular-nums;
 color: var(–text);
+letter-spacing: 0.3px;
 }
 
 .info { flex: 1; min-width: 0; }
@@ -188,13 +197,14 @@ font-weight: 500;
 overflow: hidden;
 text-overflow: ellipsis;
 white-space: nowrap;
-margin-bottom: 4px;
+color: var(–text);
+margin-bottom: 5px;
 }
 
 .train-line {
 display: flex;
 align-items: center;
-gap: 6px;
+gap: 7px;
 }
 
 .badge {
@@ -202,13 +212,13 @@ font-size: 9px;
 padding: 2px 7px;
 border-radius: 4px;
 font-weight: 500;
-letter-spacing: 0.5px;
+letter-spacing: 0.8px;
 flex-shrink: 0;
 }
 
 .train-name {
 font-size: 11px;
-color: var(–muted);
+color: var(–sub);
 overflow: hidden;
 text-overflow: ellipsis;
 white-space: nowrap;
@@ -216,254 +226,231 @@ white-space: nowrap;
 
 .status {
 font-size: 12px;
-text-align: right;
-min-width: 62px;
 font-weight: 500;
+text-align: right;
+min-width: 64px;
 }
 
-.platform span {
+.plat span {
 display: inline-flex;
 align-items: center;
 justify-content: center;
-background: rgba(255,255,255,0.07);
-border: 1px solid rgba(255,255,255,0.1);
+background: var(–card);
+border: 1px solid var(–border2);
 width: 34px;
 height: 28px;
 border-radius: 6px;
 font-size: 13px;
-font-weight: 500;
+color: var(–sub);
 }
 
-/* FOOTER */
+/* ── FOOTER ─────────────────────────────── */
 .footer {
-padding: 7px 16px;
+padding: 8px 16px;
 font-size: 10px;
-color: #2e2e4e;
+color: var(–muted);
 border-top: 1px solid var(–border);
+background: var(–surface);
 flex-shrink: 0;
-letter-spacing: 0.5px;
 display: flex;
 justify-content: space-between;
 align-items: center;
+letter-spacing: 0.5px;
 }
 
-.refresh-indicator {
+.live-dot {
 width: 6px; height: 6px;
 border-radius: 50%;
 background: var(–green);
-animation: pulse 2s ease-in-out infinite;
+animation: pulse 2.5s ease-in-out infinite;
 }
 
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.12} }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
-@keyframes fadeUp {
-from { opacity: 0; transform: translateY(8px); }
-to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0.1} }
+@keyframes pulse  { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.75)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
 </style>
 
 </head>
 <body>
 <div id="app">
+
   <div class="header">
-    <div class="logo">
-      <div class="dot"></div>
-      ÖBB FAHRPLAN
-    </div>
+    <div class="logo"><div class="dot"></div>ÖBB FAHRPLAN</div>
     <div class="clock" id="clock">--:--:--</div>
   </div>
 
-  <div class="mode-bar">
-    <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">↑ ABFAHRT</button>
-    <button class="mode-btn" id="btn-arr" onclick="setMode('arr')">↓ ANKUNFT</button>
-  </div>
-
-  <div class="tabs">
-    <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
-    <button class="tab" id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
+  <div class="controls">
+    <div class="mode-bar">
+      <button class="mode-btn active" id="btn-dep" onclick="setMode('dep')">↑ ABFAHRT</button>
+      <button class="mode-btn"        id="btn-arr" onclick="setMode('arr')">↓ ANKUNFT</button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="tab-sbg" onclick="setStation('sbg')">Salzburg Hbf</button>
+      <button class="tab"        id="tab-vie" onclick="setStation('vie')">Wien Westbhf</button>
+    </div>
   </div>
 
   <div class="col-header">
-    <div style="min-width:58px" id="col-time">ABFAHRT</div>
-    <div style="flex:1;padding-left:12px" id="col-dest">ZIEL</div>
-    <div style="min-width:62px;text-align:right">STATUS</div>
+    <div style="min-width:60px"              id="col-time">ABFAHRT</div>
+    <div style="flex:1;padding-left:12px"    id="col-dest">ZIEL</div>
+    <div style="min-width:64px;text-align:right">STATUS</div>
     <div style="width:34px;text-align:center;margin-left:12px">GL.</div>
   </div>
 
   <div class="list" id="list"></div>
 
   <div class="footer">
-    <span id="footer-text">Fahrplandaten · ÖBB Österreich</span>
-    <div class="refresh-indicator"></div>
+    <span id="footer-text">ÖBB &amp; Westbahn · Österreich</span>
+    <div class="live-dot"></div>
   </div>
+
 </div>
-
 <script>
-// ─── Data ────────────────────────────────────────────────────────────────────
+// ── Badge styles ───────────────────────────────────────────────────────────
+const BS = {
+  rj:  { bg:'rgba(232,0,61,0.2)',    c:'#ff7090' },
+  ice: { bg:'rgba(220,220,255,0.1)', c:'#ccccee' },
+  ic:  { bg:'rgba(255,120,40,0.2)',  c:'#ff8844' },
+  s:   { bg:'rgba(0,200,130,0.15)',  c:'#00d48a' },
+  rex: { bg:'rgba(100,100,220,0.18)',c:'#8888cc' },
+  wb:  { bg:'rgba(240,190,0,0.18)',  c:'#f5c400' },
+};
 
+// ── Timetable data ─────────────────────────────────────────────────────────
 const DATA = {
-  sbg: {
-    dep: [
-      { dest: 'Wien Hbf',           train: 'RJ 160',    type: 'rj',  plat: '1' },
-      { dest: 'München Hbf',        train: 'RJ 61',     type: 'rj',  plat: '3' },
-      { dest: 'Innsbruck Hbf',      train: 'ICE 28',    type: 'ice', plat: '4' },
-      { dest: 'Linz Hbf',           train: 'RJ 63',     type: 'rj',  plat: '2' },
-      { dest: 'Zürich HB',          train: 'EC 163',    type: 'ic',  plat: '5' },
-      { dest: 'Graz Hbf',           train: 'RJ 635',    type: 'rj',  plat: '1' },
-      { dest: 'Wien Hbf',           train: 'RJ 162',    type: 'rj',  plat: '3' },
-      { dest: 'Budapest Keleti',    train: 'RJ 63',     type: 'rj',  plat: '2' },
-      { dest: 'Bregenz',            train: 'REX 1860',  type: 'rex', plat: '6' },
-      { dest: 'Klagenfurt Hbf',     train: 'EC 113',    type: 'ic',  plat: '4' },
-      { dest: 'Freilassing',        train: 'S 1',       type: 's',   plat: '7' },
-      { dest: 'Golling-Abtenau',    train: 'S 3',       type: 's',   plat: '8' },
-      { dest: 'Wien Hbf',           train: 'RJ 164',    type: 'rj',  plat: '1' },
-      { dest: 'Schwarzach-St.Veit', train: 'REX 3810',  type: 'rex', plat: '5' },
-      { dest: 'Innsbruck Hbf',      train: 'RJ 765',    type: 'rj',  plat: '3' },
-    ],
-    arr: [
-      { dest: 'Wien Hbf',           train: 'RJ 161',    type: 'rj',  plat: '1' },
-      { dest: 'München Hbf',        train: 'RJ 60',     type: 'rj',  plat: '3' },
-      { dest: 'Innsbruck Hbf',      train: 'ICE 27',    type: 'ice', plat: '4' },
-      { dest: 'Linz Hbf',           train: 'RJ 62',     type: 'rj',  plat: '2' },
-      { dest: 'Zürich HB',          train: 'EC 162',    type: 'ic',  plat: '5' },
-      { dest: 'Frankfurt Hbf',      train: 'ICE 26',    type: 'ice', plat: '4' },
-      { dest: 'Graz Hbf',           train: 'RJ 634',    type: 'rj',  plat: '1' },
-      { dest: 'Budapest Keleti',    train: 'RJ 62',     type: 'rj',  plat: '2' },
-      { dest: 'Bregenz',            train: 'REX 1861',  type: 'rex', plat: '6' },
-      { dest: 'Klagenfurt Hbf',     train: 'EC 112',    type: 'ic',  plat: '4' },
-      { dest: 'Freilassing',        train: 'S 1',       type: 's',   plat: '7' },
-      { dest: 'Golling-Abtenau',    train: 'S 3',       type: 's',   plat: '8' },
-      { dest: 'Hamburg Hbf',        train: 'ICE 25',    type: 'ice', plat: '3' },
-      { dest: 'Schwarzach-St.Veit', train: 'REX 3811',  type: 'rex', plat: '5' },
-      { dest: 'Praha hl.n.',        train: 'RJ 74',     type: 'rj',  plat: '2' },
-    ]
-  },
-  vie: {
-    dep: [
-      { dest: 'Salzburg Hbf',       train: 'RJ 761',    type: 'rj',  plat: '4' },
-      { dest: 'Innsbruck Hbf',      train: 'RJ 163',    type: 'rj',  plat: '3' },
-      { dest: 'St. Pölten Hbf',     train: 'S 50',      type: 's',   plat: '1' },
-      { dest: 'Linz Hbf',           train: 'RJ 761',    type: 'rj',  plat: '4' },
-      { dest: 'Zürich HB',          train: 'RJ 165',    type: 'rj',  plat: '6' },
-      { dest: 'München Hbf',        train: 'RJ 63',     type: 'rj',  plat: '5' },
-      { dest: 'Bregenz',            train: 'RJ 167',    type: 'rj',  plat: '3' },
-      { dest: 'St. Pölten Hbf',     train: 'S 50',      type: 's',   plat: '2' },
-      { dest: 'Salzburg Hbf',       train: 'RJ 763',    type: 'rj',  plat: '4' },
-      { dest: 'Amstetten',          train: 'REX 2110',  type: 'rex', plat: '1' },
-      { dest: 'Feldkirch',          train: 'IC 690',    type: 'ic',  plat: '6' },
-      { dest: 'Wels Hbf',           train: 'REX 2112',  type: 'rex', plat: '2' },
-      { dest: 'Innsbruck Hbf',      train: 'RJ 169',    type: 'rj',  plat: '5' },
-      { dest: 'St. Pölten Hbf',     train: 'S 50',      type: 's',   plat: '1' },
-      { dest: 'Salzburg Hbf',       train: 'ICE 28',    type: 'ice', plat: '7' },
-    ],
-    arr: [
-      { dest: 'Salzburg Hbf',       train: 'RJ 760',    type: 'rj',  plat: '4' },
-      { dest: 'Innsbruck Hbf',      train: 'RJ 162',    type: 'rj',  plat: '3' },
-      { dest: 'St. Pölten Hbf',     train: 'S 50',      type: 's',   plat: '1' },
-      { dest: 'München Hbf',        train: 'RJ 62',     type: 'rj',  plat: '5' },
-      { dest: 'Zürich HB',          train: 'RJ 164',    type: 'rj',  plat: '6' },
-      { dest: 'Bregenz',            train: 'RJ 166',    type: 'rj',  plat: '3' },
-      { dest: 'Linz Hbf',           train: 'RJ 760',    type: 'rj',  plat: '4' },
-      { dest: 'Feldkirch',          train: 'IC 691',    type: 'ic',  plat: '6' },
-      { dest: 'Salzburg Hbf',       train: 'RJ 762',    type: 'rj',  plat: '4' },
-      { dest: 'Amstetten',          train: 'REX 2111',  type: 'rex', plat: '1' },
-      { dest: 'Frankfurt Hbf',      train: 'ICE 26',    type: 'ice', plat: '7' },
-      { dest: 'Wels Hbf',           train: 'REX 2113',  type: 'rex', plat: '2' },
-      { dest: 'Budapest Keleti',    train: 'RJ 68',     type: 'rj',  plat: '5' },
-      { dest: 'Praha hl.n.',        train: 'RJ 74',     type: 'rj',  plat: '3' },
-      { dest: 'Hamburg Hbf',        train: 'ICE 25',    type: 'ice', plat: '7' },
-    ]
-  }
+sbg: {
+dep: [
+{ dest:‘Wien Westbahnhof’,   train:‘WB 110’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Wien Hbf’,           train:‘RJ 160’,   type:‘rj’,  plat:‘1’ },
+{ dest:‘München Hbf’,        train:‘RJ 61’,    type:‘rj’,  plat:‘3’ },
+{ dest:‘Wien Westbahnhof’,   train:‘WB 112’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Innsbruck Hbf’,      train:‘ICE 28’,   type:‘ice’, plat:‘4’ },
+{ dest:‘Wien Hbf’,           train:‘RJ 162’,   type:‘rj’,  plat:‘1’ },
+{ dest:‘Zürich HB’,          train:‘EC 163’,   type:‘ic’,  plat:‘5’ },
+{ dest:‘Wien Westbahnhof’,   train:‘WB 114’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Graz Hbf’,           train:‘RJ 635’,   type:‘rj’,  plat:‘1’ },
+{ dest:‘Budapest Keleti’,    train:‘RJ 63’,    type:‘rj’,  plat:‘3’ },
+{ dest:‘Freilassing’,        train:‘S 1’,      type:‘s’,   plat:‘7’ },
+{ dest:‘Wien Westbahnhof’,   train:‘WB 116’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Klagenfurt Hbf’,     train:‘EC 113’,   type:‘ic’,  plat:‘4’ },
+{ dest:‘Golling-Abtenau’,    train:‘S 3’,      type:‘s’,   plat:‘8’ },
+{ dest:‘Wien Hbf’,           train:‘RJ 164’,   type:‘rj’,  plat:‘1’ },
+{ dest:‘Schwarzach-St.Veit’, train:‘REX 3810’, type:‘rex’, plat:‘5’ },
+],
+arr: [
+{ dest:‘Wien Westbahnhof’,   train:‘WB 111’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Wien Hbf’,           train:‘RJ 161’,   type:‘rj’,  plat:‘1’ },
+{ dest:‘München Hbf’,        train:‘RJ 60’,    type:‘rj’,  plat:‘3’ },
+{ dest:‘Wien Westbahnhof’,   train:‘WB 113’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Innsbruck Hbf’,      train:‘ICE 27’,   type:‘ice’, plat:‘4’ },
+{ dest:‘Zürich HB’,          train:‘EC 162’,   type:‘ic’,  plat:‘5’ },
+{ dest:‘Wien Westbahnhof’,   train:‘WB 115’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Frankfurt Hbf’,      train:‘ICE 26’,   type:‘ice’, plat:‘4’ },
+{ dest:‘Graz Hbf’,           train:‘RJ 634’,   type:‘rj’,  plat:‘1’ },
+{ dest:‘Budapest Keleti’,    train:‘RJ 62’,    type:‘rj’,  plat:‘3’ },
+{ dest:‘Wien Westbahnhof’,   train:‘WB 117’,   type:‘wb’,  plat:‘2’ },
+{ dest:‘Freilassing’,        train:‘S 1’,      type:‘s’,   plat:‘7’ },
+{ dest:‘Klagenfurt Hbf’,     train:‘EC 112’,   type:‘ic’,  plat:‘4’ },
+{ dest:‘Praha hl.n.’,        train:‘RJ 74’,    type:‘rj’,  plat:‘2’ },
+]
+},
+vie: {
+dep: [
+{ dest:‘Salzburg Hbf’,       train:‘WB 111’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Salzburg Hbf’,       train:‘RJ 761’,   type:‘rj’,  plat:‘6’ },
+{ dest:‘St. Pölten Hbf’,     train:‘S 50’,     type:‘s’,   plat:‘1’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 113’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Innsbruck Hbf’,      train:‘RJ 163’,   type:‘rj’,  plat:‘3’ },
+{ dest:‘Salzburg Hbf’,       train:‘RJ 763’,   type:‘rj’,  plat:‘6’ },
+{ dest:‘Zürich HB’,          train:‘RJ 165’,   type:‘rj’,  plat:‘5’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 115’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘München Hbf’,        train:‘RJ 63’,    type:‘rj’,  plat:‘6’ },
+{ dest:‘St. Pölten Hbf’,     train:‘S 50’,     type:‘s’,   plat:‘2’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 117’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Bregenz’,            train:‘RJ 167’,   type:‘rj’,  plat:‘3’ },
+{ dest:‘Amstetten’,          train:‘REX 2110’, type:‘rex’, plat:‘1’ },
+{ dest:‘Salzburg Hbf’,       train:‘RJ 765’,   type:‘rj’,  plat:‘6’ },
+{ dest:‘Feldkirch’,          train:‘IC 690’,   type:‘ic’,  plat:‘5’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 119’,   type:‘wb’,  plat:‘4’ },
+],
+arr: [
+{ dest:‘Salzburg Hbf’,       train:‘WB 110’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Salzburg Hbf’,       train:‘RJ 760’,   type:‘rj’,  plat:‘6’ },
+{ dest:‘St. Pölten Hbf’,     train:‘S 50’,     type:‘s’,   plat:‘1’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 112’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘München Hbf’,        train:‘RJ 62’,    type:‘rj’,  plat:‘6’ },
+{ dest:‘Innsbruck Hbf’,      train:‘RJ 162’,   type:‘rj’,  plat:‘3’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 114’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Zürich HB’,          train:‘RJ 164’,   type:‘rj’,  plat:‘5’ },
+{ dest:‘Salzburg Hbf’,       train:‘RJ 762’,   type:‘rj’,  plat:‘6’ },
+{ dest:‘Bregenz’,            train:‘RJ 166’,   type:‘rj’,  plat:‘3’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 116’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Frankfurt Hbf’,      train:‘ICE 26’,   type:‘ice’, plat:‘7’ },
+{ dest:‘Budapest Keleti’,    train:‘RJ 68’,    type:‘rj’,  plat:‘5’ },
+{ dest:‘Salzburg Hbf’,       train:‘WB 118’,   type:‘wb’,  plat:‘4’ },
+{ dest:‘Praha hl.n.’,        train:‘RJ 74’,    type:‘rj’,  plat:‘6’ },
+]
+}
 };
 
-const BADGE_STYLES = {
-  rj:  { bg: 'rgba(232,0,61,0.25)',    color: '#ff6680' },
-  ice: { bg: 'rgba(255,255,255,0.12)', color: '#e0e0e0' },
-  ic:  { bg: 'rgba(255,107,53,0.25)',  color: '#ff6b35' },
-  s:   { bg: 'rgba(0,229,160,0.18)',   color: '#00e5a0' },
-  rex: { bg: 'rgba(100,100,200,0.2)',  color: '#9999dd' },
+// ── State ──────────────────────────────────────────────────────────────────
+let station = ‘sbg’, mode = ‘dep’;
+
+// ── Clock ──────────────────────────────────────────────────────────────────
+function tick() {
+document.getElementById(‘clock’).textContent =
+new Date().toLocaleTimeString(‘de-AT’,{hour:‘2-digit’,minute:‘2-digit’,second:‘2-digit’,hour12:false});
+}
+setInterval(tick, 1000); tick();
+
+// ── Generate realistic times from now ─────────────────────────────────────
+function withTimes(entries) {
+let t = Date.now() + (1 + Math.random() * 2) * 60000;
+return entries.map((e, i) => {
+if (i) t += (4 + Math.random() * 9) * 60000;
+const d = new Date(t);
+return {
+…e,
+time: d.toLocaleTimeString(‘de-AT’,{hour:‘2-digit’,minute:‘2-digit’,hour12:false}),
+delay: Math.random() < 0.16 ? Math.ceil(Math.random() * 12) : 0,
 };
-
-// ─── State ───────────────────────────────────────────────
-let station = 'sbg';
-let mode = 'dep';
-
-// ─── Clock ───────────────────────────────────────────────
-function updateClock() {
-  document.getElementById('clock').textContent =
-    new Date().toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-// ─── Generate timetable from now ─────────────────────────
-function generateTimes(entries) {
-  const now = new Date();
-  let cursor = new Date(now);
-  // Start 1-3 min from now
-  cursor.setMinutes(cursor.getMinutes() + 1 + Math.floor(Math.random() * 3));
-
-  return entries.map((entry, i) => {
-    // Space trains 5-15 min apart
-    if (i > 0) cursor = new Date(cursor.getTime() + (5 + Math.floor(Math.random() * 10)) * 60000);
-    const delay = Math.random() < 0.18 ? Math.floor(Math.random() * 11) + 1 : 0;
-    return {
-      ...entry,
-      time: cursor.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit', hour12: false }),
-      delay,
-    };
-  });
+});
 }
 
-// ─── Render ──────────────────────────────────────────────
+// ── Render ─────────────────────────────────────────────────────────────────
 function render() {
-  const entries = DATA[station][mode];
-  const items = generateTimes(entries);
-  const list = document.getElementById('list');
+const rows = withTimes(DATA[station][mode]);
+document.getElementById(‘list’).innerHTML = rows.map((r, i) => {
+const bs = BS[r.type] || BS.rex;
+let sc = ‘var(–green)’, st = ‘pünktl.’;
+if (r.delay > 0 && r.delay < 5) { sc = ‘var(–yellow)’; st = `+${r.delay} min`; }
+if (r.delay >= 5)                { sc = ‘var(–red)’;    st = `+${r.delay} min`; }
+return `<div class="train-row" style="animation:fadeUp .32s ease ${i*18}ms both"> <div class="time">${r.time}</div> <div class="info"> <div class="dest">${r.dest}</div> <div class="train-line"> <span class="badge" style="background:${bs.bg};color:${bs.c}">${r.type==='wb'?'WB':r.train.split(' ')[0]}</span> <span class="train-name">${r.train}</span> </div> </div> <div class="status" style="color:${sc}">${st}</div> <div class="plat"><span>${r.plat}</span></div> </div>`;
+}).join(’’);
 
-  list.innerHTML = items.map((item, i) => {
-    const bs = BADGE_STYLES[item.type] || BADGE_STYLES.rex;
-    const typeLabel = item.train.split(' ')[0];
-    let statusColor = 'var(--green)', statusText = 'pünktl.';
-    if (item.delay > 0 && item.delay < 5) { statusColor = 'var(--yellow)'; statusText = `+${item.delay} min`; }
-    if (item.delay >= 5) { statusColor = 'var(--red)'; statusText = `+${item.delay} min`; }
-
-    return `<div class="train-row" style="animation: fadeUp 0.35s ease ${i * 22}ms both">
-      <div class="time">${item.time}</div>
-      <div class="info">
-        <div class="dest">${item.dest}</div>
-        <div class="train-line">
-          <span class="badge" style="background:${bs.bg};color:${bs.color}">${typeLabel}</span>
-          <span class="train-name">${item.train}</span>
-        </div>
-      </div>
-      <div class="status" style="color:${statusColor}">${statusText}</div>
-      <div class="platform"><span>${item.plat}</span></div>
-    </div>`;
-  }).join('');
-
-  const now = new Date().toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit', hour12: false });
-  document.getElementById('footer-text').textContent = `Aktualisiert ${now} Uhr · ÖBB Österreich`;
+document.getElementById(‘footer-text’).textContent =
+new Date().toLocaleTimeString(‘de-AT’,{hour:‘2-digit’,minute:‘2-digit’,hour12:false}) +
+’ Uhr · ÖBB & Westbahn’;
 }
 
-// ─── UI controls ─────────────────────────────────────────
-function setStation(key) {
-  station = key;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + key).classList.add('active');
-  render();
+// ── Controls ───────────────────────────────────────────────────────────────
+function setStation(k) {
+station = k;
+document.querySelectorAll(’.tab’).forEach(t => t.classList.remove(‘active’));
+document.getElementById(‘tab-’+k).classList.add(‘active’);
+render();
 }
 
 function setMode(m) {
-  mode = m;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-' + m).classList.add('active');
-  document.getElementById('col-time').textContent = m === 'dep' ? 'ABFAHRT' : 'ANKUNFT';
-  document.getElementById('col-dest').textContent = m === 'dep' ? 'ZIEL' : 'HERKUNFT';
-  render();
+mode = m;
+document.querySelectorAll(’.mode-btn’).forEach(b => b.classList.remove(‘active’));
+document.getElementById(‘btn-’+m).classList.add(‘active’);
+document.getElementById(‘col-time’).textContent = m===‘dep’ ? ‘ABFAHRT’ : ‘ANKUNFT’;
+document.getElementById(‘col-dest’).textContent = m===‘dep’ ? ‘ZIEL’    : ‘HERKUNFT’;
+render();
 }
 
-// ─── Init + auto refresh ─────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────────────
 render();
 setInterval(render, 60000);
 </script>
